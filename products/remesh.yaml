@@ -3,7 +3,7 @@
 
 id: remesh
 name: Remesh
-version: "1.0.0"
+version: "1.1.0"
 type: product
 url: https://www.remesh.ai
 tags:
@@ -12,18 +12,25 @@ tags:
   - clustering
   - large-scale
   - audience-engagement
+  - bridging-ranking
+  - collective-dialogue
 
 source:
   creator: Remesh
   reference_url: https://www.remesh.ai/platform/features-summary
   license: Proprietary
 
-source_type: inferred  # reconstructed from public website and help docs
+# Updated with methodology from arxiv:2503.01769 (FAccT 2025) —
+# AI-assisted peacebuilding dialogue using Remesh's collective dialogue
+# approach with 138 Israeli and Palestinian participants
+source_type: researched  # upgraded from inferred; arxiv paper details methodology
 
 description: >
   Real-time collective dialogue platform where participants respond to questions
-  and vote on each other's answers. AI clusters responses semantically and
-  predicts consensus, enabling researchers to understand large groups in real time.
+  and vote on each other's answers. AI clusters responses semantically, predicts
+  consensus, and uses bridging-based ranking to surface statements with cross-group
+  appeal. LLMs synthesize candidate statements from participant input for
+  iterative collective review.
 
 agents:
   - id: clustering-engine
@@ -39,6 +46,18 @@ agents:
       - Generate cluster labels and summaries
       - Track cluster evolution over session
 
+  - id: synthesizer
+    role: LLM Statement Synthesizer
+    type: llm
+    description: >
+      Processes raw participant input and synthesizes candidate statements
+      that capture shared perspectives. These AI-generated statements are
+      then surfaced for collective voting alongside organic responses.
+    responsibilities:
+      - Synthesize candidate statements from participant input
+      - Distill shared perspectives across diverse responses
+      - Generate bridging statements that appeal across groups
+
   - id: consensus-predictor
     role: Consensus Prediction Engine
     type: llm
@@ -50,6 +69,20 @@ agents:
       - Calculate "Percent Agree" consensus scores
       - Segment participants by voting behavior
       - Identify majority and minority positions
+
+  - id: bridging-ranker
+    role: Bridging-Based Ranker
+    type: system
+    description: >
+      Social choice method that ranks statements by cross-group appeal rather
+      than simple majority. Prioritizes statements that bridge divides —
+      achieving high agreement across different participant segments, not
+      just within one group.
+    responsibilities:
+      - Score statements by cross-partisan/cross-group support
+      - Prioritize bridging statements over polarizing ones
+      - Surface common ground between divided groups
+      - Rank by inclusivity of agreement, not just volume
 
   - id: moderator
     role: Human Moderator
@@ -101,18 +134,35 @@ stages:
     duration: "2-5 min"
     human_in_loop: false
 
+  - name: LLM Synthesis
+    description: AI synthesizes candidate statements from raw responses
+    agent: synthesizer
+    input:
+      - Raw participant responses
+    processing: >
+      LLM processes diverse participant input and generates candidate
+      bridging statements that capture shared perspectives. These
+      synthesized statements are added to the response pool for voting.
+    memory:
+      - All responses for this question
+      - Group/segment context (if available)
+    output:
+      - AI-synthesized candidate statements
+    duration: automated
+    human_in_loop: false
+
   - name: Peer Voting
-    description: Participants vote agree/disagree on others' responses
+    description: Participants vote agree/disagree on responses and synthesized statements
     agent: consensus-predictor
     input:
-      - Participant responses
+      - Participant responses + AI-synthesized statements
       - Agree/disagree votes
     processing: >
       Each participant sees a subset of others' responses and votes.
       LLM predicts how they would vote on unseen responses to extrapolate
       full consensus picture.
     memory:
-      - All responses for this question
+      - All responses and synthesized statements
       - Vote matrix (observed votes)
     output:
       - Predicted consensus scores per response
@@ -120,20 +170,40 @@ stages:
     duration: "2-5 min"
     human_in_loop: false
 
+  - name: Bridging-Based Ranking
+    description: Rank statements by cross-group appeal
+    agent: bridging-ranker
+    input:
+      - Consensus scores per response
+      - Participant segment data
+    processing: >
+      Apply bridging-based social choice ranking: score each statement
+      by how well it achieves agreement across different participant
+      segments, not just overall majority. Prioritize statements that
+      bridge divides.
+    memory:
+      - Vote matrix
+      - Participant segments
+    output:
+      - Bridging-ranked statement list
+      - Cross-group agreement scores
+    duration: automated
+    human_in_loop: false
+
   - name: Thematic Clustering
     description: AI groups responses into meaningful themes
     agent: clustering-engine
     input:
-      - All responses with consensus scores
+      - All responses with consensus and bridging scores
     processing: >
       Semantic embedding and clustering. Responses grouped by meaning,
       not keywords. Cluster summaries generated.
     memory:
       - Response embeddings
-      - Consensus scores
+      - Consensus and bridging scores
     output:
       - Thematic clusters with labels
-      - Cluster-level consensus metrics
+      - Cluster-level consensus and bridging metrics
       - Real-time dashboard view
     duration: automated
     human_in_loop: false
@@ -142,13 +212,13 @@ stages:
     description: Moderator asks follow-up questions based on results
     agent: moderator
     input:
-      - Cluster results and consensus scores
+      - Cluster results, consensus scores, bridging rankings
     processing: Identify surprising or high-value themes to probe deeper
     memory:
       - All prior rounds' results
       - Research agenda
     output:
-      - Follow-up questions
+      - Follow-up questions (loop back to Response Collection)
     duration: "1-2 min"
     human_in_loop: true
 
@@ -156,7 +226,8 @@ data_flow:
   inputs:
     - Research agenda / question set
   outputs:
-    - Thematic clusters with consensus scores
+    - Thematic clusters with consensus and bridging scores
+    - Bridging-ranked statements (cross-group common ground)
     - Participant segments
     - Real-time dashboard
     - Session report with sentiment analysis
@@ -164,6 +235,7 @@ data_flow:
     - Response database
     - Vote matrix
     - Cluster embeddings
+    - Bridging scores
 
 patterns:
   - cross-pollination  # exposure to others' views via voting
@@ -175,4 +247,11 @@ evaluation:
     - Voting coverage (% of responses voted on)
     - Cluster coherence (within-cluster similarity)
     - Consensus prediction accuracy
+    - Bridging score (cross-group agreement level)
     - Moderator engagement (follow-up quality)
+
+# --- REFERENCES ---
+# arxiv:2503.01769 (FAccT 2025) — "AI-Assisted Peacebuilding Dialogue"
+# 138 Israeli & Palestinian participants, April-July 2024
+# Achieved 84%+ agreement on shared statements across deeply divided groups
+# Methodology: LLM synthesis + bridging-based ranking + collective dialogue
