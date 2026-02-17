@@ -63,6 +63,12 @@ See [`schema/workflow-schema.yaml`](schema/workflow-schema.yaml) for the full de
 | [Talk to the City](products/talk-to-the-city.yaml) | verified | Elicitation + clustering | WhatsApp Bot + Topic Clusterer + Visualizer | 10-10,000 |
 | [Thinkscape](products/thinkscape.yaml) | researched | Swarm intelligence | Conversational Surrogates + Orchestrator | 14-400 |
 
+## Planned Features
+
+- **Abstract workflows** — reusable, product-agnostic workflow definitions extracted from the product layer (in `abstract/`)
+- **Schema.org JSON-LD** — generate web pages with [schema.org](https://schema.org/) structured data from each YAML workflow, mapping to `HowTo`/`HowToStep` (stages), `SoftwareApplication` (products), `Role` (agents), and `Dataset` (outputs). This would make workflows discoverable by search engines and consumable by AI assistants (Claude, Perplexity, ChatGPT). Deliberation-specific concepts (cross-pollination, pairwise comparison, consensus) have no schema.org equivalent and would remain in the YAML schema.
+- **OpenClaw integration** — generate agent configurations for [OpenClaw](https://github.com/openclaw) or similar orchestration frameworks from the abstract workflow layer
+
 ## Contributing
 
 Add a new workflow by creating a YAML file following the schema. Product workflows go in `products/`, reusable abstract workflows in `abstract/` (coming soon).
