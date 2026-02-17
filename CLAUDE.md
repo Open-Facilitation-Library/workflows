@@ -14,7 +14,7 @@ Each YAML file documents how a platform's AI agents facilitate group processes â
 
 ```
 schema/workflow-schema.yaml    # Canonical schema definition
-products/                      # Real platform implementations (17 workflows)
+products/                      # Real platform implementations (14 workflows)
 research/                      # Research notes on evaluated platforms
 ```
 
