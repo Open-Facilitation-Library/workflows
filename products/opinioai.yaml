@@ -1,0 +1,170 @@
+# OpinioAI
+# https://www.opinio.ai (also symar.ai)
+
+id: opinioai
+name: OpinioAI
+version: "1.0.0"
+type: product
+url: https://www.opinio.ai
+tags:
+  - synthetic-participants
+  - focus-groups
+  - ai-personas
+  - market-research
+  - OCEAN-personality
+
+source:
+  creator: OpinioAI
+  reference_url: https://www.opinio.ai/solutions/synthetic-focus-groups/
+  license: Proprietary
+
+source_type: researched  # detailed product documentation and independent reviews
+
+description: >
+  Synthetic focus group platform where an AI Moderator facilitates discussions
+  between AI Personas — synthetic participants with defined demographics,
+  professional traits, and OCEAN personality profiles. Unique architecture:
+  both the facilitator and participants are AI agents, enabling rapid
+  qualitative research without human recruitment.
+
+agents:
+  - id: moderator
+    role: AI Moderator
+    type: llm
+    description: >
+      Guides the synthetic focus group discussion. Introduces research
+      questions, facilitates interaction between AI personas, ensures
+      the conversation explores topics in depth, and keeps discussion on track.
+    responsibilities:
+      - Introduce research questions to the group
+      - Facilitate interaction between AI personas
+      - Probe for deeper exploration of themes
+      - Keep discussion focused and on track
+      - Manage group dynamics between personas
+
+  - id: persona
+    role: AI Persona (Synthetic Participant)
+    type: llm
+    description: >
+      Simulated participant with defined demographics, professional traits,
+      psychographics (including OCEAN personality profiles), and nuanced
+      viewpoints. Provides candid feedback free from groupthink or social
+      desirability bias.
+    responsibilities:
+      - Respond to questions from persona's defined perspective
+      - Interact with other personas in the group
+      - Provide candid, unfiltered feedback
+      - Represent target segment authentically
+
+  - id: analyst
+    role: Report Generator
+    type: llm
+    description: >
+      Synthesizes the focus group discussion into qualitative research
+      reports with themes, insights, and quotes from personas.
+    responsibilities:
+      - Analyze focus group transcript
+      - Extract themes and insights
+      - Generate qualitative research report
+
+participants:
+  input_mode: text  # AI personas interact via text
+  interaction: small-group  # focus group format (multiple personas)
+  synchronicity: sync  # simulated real-time discussion
+  scale:
+    min: 2  # minimum personas
+    max: 20  # personas per group
+    typical: 6
+  anonymity: false  # personas have defined identities
+
+stages:
+  - name: Persona Creation
+    description: Define or generate synthetic participants
+    agent: persona
+    input:
+      - Target segment definition
+      - Optional: existing survey/interview data for fine-tuning
+    processing: >
+      Create AI personas with specific demographics, professional traits,
+      psychographics (OCEAN personality profiles), and viewpoints. Can be
+      manually defined or auto-generated from a business profile.
+    memory:
+      - Persona definitions
+      - Optional: fine-tuning data from prior research
+    output:
+      - Configured AI personas (2-20)
+    duration: "5-15 min (researcher)"
+    human_in_loop: true
+
+  - name: Research Setup
+    description: Define research questions and discussion guide
+    agent: moderator
+    input:
+      - Research objectives
+      - Discussion topics and questions
+    processing: Configure moderation flow for the focus group
+    memory:
+      - Research objectives
+    output:
+      - Discussion guide for AI moderator
+    duration: "5-10 min"
+    human_in_loop: true
+
+  - name: Synthetic Focus Group
+    description: AI Moderator facilitates discussion between AI Personas
+    agent: moderator
+    input:
+      - Discussion guide
+      - AI persona responses
+    processing: >
+      Moderator introduces questions, facilitates persona-to-persona
+      interaction, probes for depth, manages group dynamics. Personas
+      respond from their defined perspectives and react to each other.
+    memory:
+      - Discussion guide
+      - Persona profiles
+      - Conversation history
+    output:
+      - Focus group transcript
+      - Persona interaction patterns
+    duration: "minutes (automated)"
+    human_in_loop: false
+
+  - name: Analysis & Reporting
+    description: Generate qualitative insights from the discussion
+    agent: analyst
+    input:
+      - Focus group transcript
+      - Research objectives
+    processing: Extract themes, insights, and representative quotes
+    memory:
+      - Focus group transcript
+      - Persona profiles
+    output:
+      - Qualitative research report
+      - Theme analysis
+      - Key persona quotes
+    duration: automated
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Target segment definitions
+    - Research questions
+    - Optional: prior research data for fine-tuning
+  outputs:
+    - Qualitative research report
+    - Focus group transcript
+    - Theme analysis
+  storage:
+    - Persona definitions
+    - Focus group transcripts
+
+patterns: []  # synthetic focus group — novel paradigm
+
+evaluation:
+  metrics:
+    - Persona authenticity (vs real participant benchmarks)
+    - Discussion depth and nuance
+    - Theme validity (cross-referenced with real research)
+    - Speed-to-insights (hours vs weeks)

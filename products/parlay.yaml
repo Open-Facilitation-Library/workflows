@@ -1,0 +1,184 @@
+# Parlay Ideas
+# https://parlayideas.com
+
+id: parlay
+name: Parlay Ideas
+version: "1.0.0"
+type: product
+url: https://parlayideas.com
+tags:
+  - education
+  - classroom
+  - discussion
+  - socratic
+  - peer-feedback
+
+source:
+  creator: Parlay Ideas
+  reference_url: https://parlayideas.com
+  license: Proprietary
+
+source_type: researched  # detailed product documentation and feature descriptions
+
+description: >
+  AI-powered classroom discussion platform where the "Parlay Genie" generates
+  higher-order discussion prompts from student work, facilitates threaded
+  written and verbal discussions, enables anonymous peer feedback, and tracks
+  participation and skill development over time. Used by 1M+ teachers and students.
+
+agents:
+  - id: genie
+    role: Parlay Genie
+    type: llm
+    description: >
+      Reads submitted materials (articles, videos, past discussion data)
+      and generates higher-order discussion prompts and follow-up questions
+      customized to what students actually said. Builds sequential
+      discussions where each round builds on prior responses.
+    responsibilities:
+      - Analyze source material (articles, videos, student work)
+      - Generate higher-order discussion prompts
+      - Create follow-up questions from student responses
+      - Build sequential discussion rounds that scaffold learning
+
+  - id: tracker
+    role: Participation Tracker
+    type: system
+    description: >
+      Monitors student engagement across written and verbal discussions.
+      Tracks participation, skill development, and generates engagement
+      reports over time.
+    responsibilities:
+      - Track written and verbal participation
+      - Monitor skill development over time
+      - Generate engagement reports
+      - Sync assessment data to external gradebooks
+
+participants:
+  input_mode: mixed  # written text + verbal (Socratic seminars)
+  interaction: small-group  # classroom-sized groups
+  synchronicity: sync  # live classroom discussions
+  scale:
+    min: 5
+    max: 40  # typical classroom
+    typical: 25
+  anonymity: true  # "secret student identities" feature
+
+stages:
+  - name: Discussion Setup
+    description: Teacher selects material and generates discussion prompts
+    agent: genie
+    input:
+      - Source material (articles, videos, student work)
+      - Learning objectives
+    processing: >
+      Genie reads submitted materials and auto-generates higher-order
+      prompts within seconds. Teacher can also select from 5,000+
+      crowd-sourced prompts.
+    memory:
+      - Source material
+      - Learning objectives
+    output:
+      - Discussion prompts (AI-generated or crowd-sourced)
+      - RoundTable configuration
+    duration: "5-10 min (teacher)"
+    human_in_loop: true
+
+  - name: Written RoundTable
+    description: Threaded written discussion with peer feedback
+    agent: tracker
+    input:
+      - Discussion prompts
+      - Student written responses
+      - Peer feedback
+    processing: >
+      Students join via RoundTable code, post responses, give guided
+      peer feedback using optional anonymous identities. System tracks
+      participation and response quality.
+    memory:
+      - Discussion prompts
+      - All student responses
+    output:
+      - Threaded discussion transcript
+      - Peer feedback records
+      - Participation data
+    duration: "15-30 min"
+    human_in_loop: false
+
+  - name: Verbal RoundTable
+    description: AI-tracked Socratic seminar discussion
+    agent: tracker
+    input:
+      - Discussion prompts
+      - Student verbal contributions
+    processing: >
+      Track live verbal participation during Socratic seminars.
+      Record each student's voice in oral discussions. Monitor
+      engagement levels.
+    memory:
+      - Discussion prompts
+      - Participation records
+    output:
+      - Verbal participation records
+      - Speaking time distribution
+    duration: "20-45 min"
+    human_in_loop: true  # teacher facilitates the verbal discussion
+
+  - name: Sequential Follow-Up
+    description: AI generates next round from what students said
+    agent: genie
+    input:
+      - Prior round student responses
+      - Learning objectives
+    processing: >
+      Genie analyzes what students actually said and generates
+      follow-up questions that build on their responses, creating
+      scaffolded multi-round discussions.
+    memory:
+      - All prior round responses
+      - Learning objectives
+      - Source material
+    output:
+      - Next-round discussion prompts
+    duration: automated
+    human_in_loop: false
+
+  - name: Assessment & Reporting
+    description: Generate engagement reports and sync grades
+    agent: tracker
+    input:
+      - All participation data across rounds
+      - Skill development metrics
+    processing: Generate longitudinal engagement reports and skill portfolios
+    memory:
+      - Historical participation data
+    output:
+      - Engagement reports
+      - Skill development portfolios
+      - Gradebook sync (via LMS/SIS integration)
+    duration: automated
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Source material (articles, videos)
+    - Learning objectives
+  outputs:
+    - Discussion transcripts
+    - Engagement reports
+    - Skill development portfolios
+    - Gradebook data
+  storage:
+    - Discussion archives
+    - Student participation history
+    - Crowd-sourced prompt library (5,000+)
+
+patterns: []  # AI-facilitated classroom discussion
+
+evaluation:
+  metrics:
+    - Student participation rate
+    - Discussion depth (response quality)
+    - Peer feedback quality
+    - Skill development over time
+    - Prompt relevance to learning objectives

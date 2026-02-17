@@ -1,0 +1,200 @@
+# Outset
+# https://outset.ai
+
+id: outset
+name: Outset
+version: "1.0.0"
+type: product
+url: https://outset.ai
+tags:
+  - interviews
+  - multimodal
+  - video
+  - usability-testing
+  - fraud-detection
+  - multilingual
+
+source:
+  creator: Outset
+  reference_url: https://outset.ai/platform
+  license: Proprietary
+
+source_type: researched  # detailed product documentation and blog posts
+
+description: >
+  Multimodal AI-moderated research platform conducting interviews via video,
+  voice, or text in 40+ languages. Distinguishing features: screen-share
+  usability testing where the AI follows participant actions in real time,
+  a dedicated fraud detection agent, and recruitment from 1.1B+ global
+  participants. Raised $30M Series B.
+
+agents:
+  - id: moderator
+    role: AI Moderator
+    type: llm
+    description: >
+      Conducts interviews via video, voice, or text. Adapts interview style
+      based on research goals (usability → task flows; concept testing →
+      perceptions; exploratory → follows threads). Customizable persona,
+      language, and instructions.
+    responsibilities:
+      - Conduct multimodal interviews (video, voice, text)
+      - Ask dynamic follow-up questions based on responses
+      - Follow participant screen actions during usability testing
+      - Probe for the "why" behind answers
+      - Adapt style to research type (usability, concept, exploratory)
+
+  - id: fraud-detector
+    role: Fraud Detection Agent
+    type: llm
+    description: >
+      Purpose-built agent that observes interview sessions to detect
+      fraudulent and low-quality answers with 99%+ accuracy.
+    responsibilities:
+      - Monitor sessions in real time
+      - Detect fraudulent or low-quality responses
+      - Flag problematic sessions
+      - Ensure data quality across studies
+
+  - id: analyst
+    role: Insight Synthesizer
+    type: llm
+    description: >
+      Generates summaries, themes, quotes, highlight reels, and exportable
+      reports from interview data. Supports cross-study search.
+    responsibilities:
+      - Generate top-line reports automatically
+      - Extract themes, quotes, and highlight reels
+      - Create exportable PowerPoint decks
+      - Enable cross-study search across all research
+
+participants:
+  input_mode: mixed  # video, voice, text, screen-share
+  interaction: one-to-one
+  synchronicity: async
+  scale:
+    min: 10
+    max: 5000
+    typical: 100
+  anonymity: true
+
+stages:
+  - name: Study Setup
+    description: Define research goals and configure AI moderator
+    agent: moderator
+    input:
+      - Research goals and background
+      - Discussion guide (or auto-generated from goals)
+      - Moderator persona and language settings
+    processing: >
+      AI generates interview guide from research goals. Researcher
+      customizes moderator persona, instructions, and interview style.
+    memory:
+      - Research goals
+    output:
+      - Configured study with discussion guide
+      - Custom screener questions
+    duration: "10-30 min (researcher)"
+    human_in_loop: true
+
+  - name: Participant Recruitment
+    description: Recruit from 1.1B+ global participant network
+    agent: moderator
+    input:
+      - Target audience criteria
+      - Custom screener logic
+    processing: >
+      Screen participants via integrated partners (Prolific, User Interviews).
+      Advanced logic ensures exact audience match.
+    memory:
+      - Screening criteria
+    output:
+      - Qualified participant pool
+    duration: "hours-days"
+    human_in_loop: false
+
+  - name: AI-Moderated Interview
+    description: Conduct multimodal interview with each participant
+    agent: moderator
+    input:
+      - Discussion guide
+      - Participant responses (video/voice/text)
+      - Screen-share feed (for usability testing)
+    processing: >
+      Engage participant in rich dialogue via their preferred modality.
+      For usability testing: follow screen actions and ask contextual
+      questions in real time. Dynamically probe deeper on interesting
+      responses.
+    memory:
+      - Discussion guide
+      - Current conversation history
+      - Research goals
+    output:
+      - Interview transcript (with video/audio)
+      - Participant responses categorized by question
+    duration: "10-60 min per participant"
+    human_in_loop: false
+
+  - name: Quality Assurance
+    description: Detect fraudulent or low-quality responses
+    agent: fraud-detector
+    input:
+      - Interview session data
+    processing: >
+      Observe sessions for fraudulent behavior, low-quality answers,
+      inconsistencies, or bot-like patterns. Flag problematic sessions.
+    memory:
+      - Session data
+      - Fraud detection models
+    output:
+      - Quality scores per session
+      - Flagged sessions
+    duration: automated
+    human_in_loop: false
+
+  - name: Insight Synthesis
+    description: Generate reports and highlight reels
+    agent: analyst
+    input:
+      - All interview transcripts (quality-filtered)
+      - Research goals
+    processing: >
+      Extract themes, powerful quotes, and key findings. Generate
+      customizable reports and highlight reels aligned to research
+      objectives.
+    memory:
+      - All interview data
+      - Research goals
+      - Cross-study history
+    output:
+      - Top-line summary report
+      - Theme analysis
+      - Highlight reels
+      - PowerPoint deck
+      - CSV export with AI-generated categories
+    duration: automated
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Research goals and discussion guide
+    - Target audience criteria
+  outputs:
+    - AI-generated research reports
+    - Highlight reels
+    - PowerPoint decks
+    - CSV exports with categorized responses
+  storage:
+    - Interview recordings (video/voice)
+    - Transcripts
+    - Cross-study searchable archive
+
+patterns: []  # multimodal AI-moderated research
+
+evaluation:
+  metrics:
+    - Interview completion rate
+    - Fraud detection accuracy (99%+)
+    - Time-to-insights vs traditional research
+    - Probe depth quality
+    - Cross-study insight discovery

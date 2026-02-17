@@ -1,0 +1,179 @@
+# Orchidea
+# https://www.orchidea.dev
+
+id: orchidea
+name: Orchidea
+version: "1.0.0"
+type: product
+url: https://www.orchidea.dev
+tags:
+  - workshops
+  - innovation
+  - brainstorming
+  - idea-generation
+  - proposals
+
+source:
+  creator: Orchidea
+  reference_url: https://www.orchidea.dev/workshop
+  license: Proprietary
+
+source_type: researched  # detailed product documentation with workflow description
+
+description: >
+  AI-facilitated innovation workshop platform where AI actively participates
+  alongside humans — generating ideas, drafting proposals, and guiding teams
+  through structured phases from ideation to proposal refinement. Combines
+  AI creativity with participant-driven selection and voting.
+
+agents:
+  - id: ideator
+    role: AI Ideation Partner
+    type: llm
+    description: >
+      Actively participates in brainstorming by generating diverse ideas
+      in real time alongside human participants. Fuels creativity by
+      contributing unexpected angles and connections.
+    responsibilities:
+      - Generate diverse ideas during brainstorming
+      - Contribute alongside human participants in real time
+      - Offer unexpected angles and creative connections
+
+  - id: drafter
+    role: Proposal Drafter
+    type: llm
+    description: >
+      Takes top-voted ideas and drafts initial proposal versions to
+      accelerate the development phase. Participants then refine these
+      collaboratively.
+    responsibilities:
+      - Draft first versions of proposals from top ideas
+      - Accelerate the ideation-to-proposal transition
+      - Provide structured starting points for refinement
+
+  - id: facilitator-dashboard
+    role: Workshop Facilitator Dashboard
+    type: system
+    description: >
+      Provides facilitators with oversight of workshop progress. Supports
+      pre-planned sessions with flexibility to adjust in real time.
+    responsibilities:
+      - Track workshop progress across phases
+      - Enable facilitator oversight and adjustments
+      - Manage participant invitations and access
+
+participants:
+  input_mode: text
+  interaction: large-group
+  synchronicity: sync
+  scale:
+    min: 3
+    max: 500
+    typical: 20
+  anonymity: false
+
+stages:
+  - name: Define Topic
+    description: Facilitator creates workshop and invites participants
+    agent: facilitator-dashboard
+    input:
+      - Workshop topic / challenge statement
+      - Participant list
+    processing: Configure workshop and send invitations via email or link
+    memory: []
+    output:
+      - Configured workshop with topic and participants
+    duration: "5-10 min (facilitator)"
+    human_in_loop: true
+
+  - name: Idea Collection
+    description: Humans and AI brainstorm together
+    agent: ideator
+    input:
+      - Workshop topic
+      - Human-submitted ideas
+    processing: >
+      Participants submit ideas visible to everyone instantly. AI
+      contributes additional ideas alongside human input in real time,
+      generating diverse and unexpected angles.
+    memory:
+      - Workshop topic
+      - All submitted ideas
+    output:
+      - Combined idea pool (human + AI generated)
+    duration: "10-20 min"
+    human_in_loop: false
+
+  - name: Idea Selection
+    description: Participants vote on the strongest ideas
+    agent: facilitator-dashboard
+    input:
+      - Combined idea pool
+      - Participant votes
+    processing: >
+      Participants review all ideas and vote on the strongest ones.
+      Creates a prioritized ranking based on collective judgment.
+    memory:
+      - All ideas
+    output:
+      - Prioritized idea ranking
+      - Top ideas selected for development
+    duration: "5-10 min"
+    human_in_loop: false
+
+  - name: Proposal Creation
+    description: AI drafts proposals from top ideas
+    agent: drafter
+    input:
+      - Top-voted ideas
+      - Workshop context
+    processing: >
+      AI drafts first versions of proposals for each top idea,
+      providing structured starting points for collaborative
+      development.
+    memory:
+      - Top ideas
+      - Workshop topic and context
+    output:
+      - Draft proposals
+    duration: automated
+    human_in_loop: false
+
+  - name: Development & Voting
+    description: Collaborative refinement of proposals
+    agent: facilitator-dashboard
+    input:
+      - Draft proposals
+      - Participant votes and comments
+    processing: >
+      Participants vote on proposals, then collaboratively refine
+      the most popular ones through comments and iteration.
+    memory:
+      - All proposals
+      - Participant feedback
+    output:
+      - Final refined proposals
+      - Voting results
+    duration: "15-30 min"
+    human_in_loop: false
+
+data_flow:
+  inputs:
+    - Workshop topic / challenge statement
+  outputs:
+    - Prioritized ideas
+    - Refined proposals (exportable to Word)
+    - Voting results
+  storage:
+    - Ideas and proposals
+    - Voting data
+    - Workshop archives
+
+patterns: []  # AI-augmented workshop facilitation
+
+evaluation:
+  metrics:
+    - Idea diversity (human vs AI contributions)
+    - Participant engagement (votes, comments)
+    - Proposal quality
+    - Time-to-actionable-output

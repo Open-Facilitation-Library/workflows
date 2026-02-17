@@ -1,0 +1,152 @@
+# Bot Mediation
+# https://botmediation.com
+
+id: bot-mediation
+name: Bot Mediation
+version: "1.0.0"
+type: product
+url: https://botmediation.com
+tags:
+  - mediation
+  - dispute-resolution
+  - legal
+  - negotiation
+  - ADR
+
+source:
+  creator: Bot Mediation
+  reference_url: https://botmediation.com
+  license: Proprietary
+
+source_type: researched  # detailed product documentation and practitioner testimonials
+
+description: >
+  AI-powered alternative dispute resolution platform where an AI mediator
+  guides plaintiffs and defendants through settlement negotiations. Analyzes
+  case data, provides negotiation advice, tracks progress in real time, and
+  can issue bridging proposals when parties are close. The first AI Bot
+  Mediator, launched at ABA TECHSHOW 2025.
+
+agents:
+  - id: mediator
+    role: AI Bot Mediator
+    type: llm
+    description: >
+      Analyzes submitted case information, guides both parties through
+      structured negotiation, provides recommendation throughout the
+      process, and generates mediator's proposals when offers and
+      demands nearly converge.
+    responsibilities:
+      - Analyze case information from both parties
+      - Guide negotiation through offer/demand exchange
+      - Provide data-driven negotiation advice
+      - Issue bridging mediator's proposal when parties are close
+      - Track negotiation progress in real time
+      - Escalate to human neutral if unresolved
+
+participants:
+  input_mode: text
+  interaction: small-group  # two parties (plaintiff + defendant)
+  synchronicity: sync
+  scale:
+    min: 2
+    max: 2  # bilateral dispute
+    typical: 2
+  anonymity: false
+
+stages:
+  - name: Case Submission
+    description: Each party submits case information
+    agent: mediator
+    input:
+      - Case details from plaintiff
+      - Case details from defendant
+      - Supporting documentation
+    processing: Analyze case data from both sides to understand dispute parameters
+    memory: []
+    output:
+      - Structured case analysis
+      - Initial assessment of dispute range
+    duration: "pre-session"
+    human_in_loop: false
+
+  - name: Active Negotiation
+    description: AI guides parties through offer/demand exchange
+    agent: mediator
+    input:
+      - Offers from plaintiff
+      - Demands from defendant
+      - Case analysis
+    processing: >
+      Guide both sides through structured negotiation. Provide
+      data-driven recommendations based on case specifics. Track
+      real-time progress toward settlement with visual guidance tools.
+    memory:
+      - Case analysis
+      - Negotiation history (all offers/demands)
+      - Comparable case data
+    output:
+      - Negotiation progress tracking
+      - Settlement recommendations
+    duration: "45-60 min typical"
+    human_in_loop: false
+
+  - name: Mediator's Proposal
+    description: AI issues bridging proposal if parties are close
+    agent: mediator
+    input:
+      - Current offer/demand positions
+      - Negotiation trajectory
+    processing: >
+      When opposing offers and demands are nearly converging, generate
+      a mediator's proposal to bridge the remaining gap. Based on
+      case data and negotiation pattern analysis.
+    memory:
+      - Full negotiation history
+      - Case analysis
+      - Comparable settlement data
+    output:
+      - Mediator's bridging proposal
+      - Supporting rationale
+    duration: automated
+    human_in_loop: false
+
+  - name: Resolution or Escalation
+    description: Finalize settlement or refer to human neutral
+    agent: mediator
+    input:
+      - Party responses to mediator's proposal
+    processing: >
+      If accepted: finalize settlement and capture key negotiation
+      data points. If unresolved: refer to qualified human neutral
+      with full negotiation analytics to "prime the pump."
+    memory:
+      - Full session data
+    output:
+      - Settlement agreement (if resolved)
+      - Negotiation analytics shared with all parties
+      - Referral to human neutral (if unresolved)
+    duration: automated
+    human_in_loop: true  # human neutral as fallback
+
+data_flow:
+  inputs:
+    - Case information from both parties
+  outputs:
+    - Settlement agreement or mediator's proposal
+    - Negotiation analytics and data points
+    - Referral package for human neutral (if needed)
+  storage:
+    - Case data
+    - Negotiation history
+    - Settlement records
+
+patterns: []  # AI-mediated dispute resolution
+
+evaluation:
+  metrics:
+    - Settlement rate
+    - Time-to-resolution (vs traditional mediation)
+    - Cost savings (vs human mediator)
+    - Party satisfaction
+    - Fair valuation accuracy
