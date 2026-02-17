@@ -21,11 +21,9 @@ products/                 # How real platforms implement AI facilitation
   anthropic-interviewer.yaml
   bot-mediation.yaml
   complexchaos.yaml
-  cortico.yaml
   crowdsmart.yaml
   habermas-machine.yaml
   harmonica.yaml
-  jigsaw-sensemaking.yaml
   juno.yaml
   listen.yaml
   orchidea.yaml
@@ -59,11 +57,9 @@ See [`schema/workflow-schema.yaml`](schema/workflow-schema.yaml) for the full de
 | [Anthropic Interviewer](products/anthropic-interviewer.yaml) | researched | Async 1-on-1 interviews | Interviewer + Analyst | 1,000+ |
 | [Bot Mediation](products/bot-mediation.yaml) | researched | AI dispute mediation | AI Bot Mediator | 2 (bilateral) |
 | [ComplexChaos](products/complexchaos.yaml) | inferred | Async organizational alignment | Dialogue Agent + Pattern Synthesizer | 5-200 |
-| [Cortico](products/cortico.yaml) | researched | Community audio conversations | Recorder + AI Sensemaker + Human Facilitator | 6-500 |
 | [CrowdSmart](products/crowdsmart.yaml) | researched | Generative Collective Intelligence | Collective Reasoning Agent + Pairwise Engine + Private LM | 10-10,000 |
 | [Habermas Machine](products/habermas-machine.yaml) | verified | Iterative consensus | Statement Generator + Critique Processor | 5-1,000 |
 | [Harmonica](products/harmonica.yaml) | verified | Async structured deliberation | Facilitator + Cross-Pollinator + Synthesizer | 3-500 |
-| [Jigsaw Sensemaking](products/jigsaw-sensemaking.yaml) | verified | Comment analysis | Topic Modeler + Categorizer + Summarizer | 50-100,000 |
 | [Juno](products/juno.yaml) | inferred | Unscripted AI interviews | Interviewer + Thematic Analyst | 5-1,000 |
 | [Listen](products/listen.yaml) | inferred | AI research pipeline | Recruiter + Interviewer + Analyst | 10-1,000 |
 | [Orchidea](products/orchidea.yaml) | researched | AI workshop facilitation | AI Ideator + Proposal Drafter | 3-500 |
