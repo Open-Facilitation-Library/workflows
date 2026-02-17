@@ -18,6 +18,9 @@ source:
   reference_url: https://cortico.ai/platform/
   license: Proprietary (nonprofit)
 
+# MIT CCC collaboration; some technical detail from research publications
+source_type: researched  # MIT CCC partnership with published research on sensemaking approach
+
 description: >
   Community conversation platform that records small-group dialogues,
   creates transcripts and audio snippets, and uses AI-assisted sensemaking

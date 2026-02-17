@@ -18,6 +18,9 @@ source:
   reference_url: https://www.science.org/doi/10.1126/science.adq2852
   license: Apache 2.0 (dataset)
 
+# Published in Science (2024): "AI can help humans find common ground in democratic deliberation"
+source_type: verified  # detailed methodology in Science paper + open dataset on GitHub
+
 description: >
   Scaffolded pair of fine-tuned LLMs that iteratively generate group opinion
   statements by incorporating individual opinions and critiques, maximizing

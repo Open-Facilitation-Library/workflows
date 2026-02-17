@@ -18,6 +18,8 @@ source:
   reference_url: https://harmonica.chat
   license: Open-core (AGPL-3.0 OSS / proprietary Pro)
 
+source_type: verified  # open-source codebase (harmonicabot/harmonica-web-app)
+
 description: >
   Structured deliberation platform where an AI facilitator conducts 1-on-1
   conversations with each participant, cross-pollinates perspectives from other

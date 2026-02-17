@@ -18,6 +18,8 @@ source:
   reference_url: https://heyjuno.co
   license: Proprietary
 
+source_type: inferred  # reconstructed from public website and product review sites
+
 description: >
   AI research platform that conducts unscripted 1-on-1 interviews at scale.
   Trained by veteran researchers, Juno adapts conversations in real time to

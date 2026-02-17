@@ -20,6 +20,8 @@ source:
   reference_url: https://github.com/AIObjectives/tttc-light-js
   license: MIT
 
+source_type: verified  # open-source codebases (AIObjectives/tttc-light-js + AIObjectives/elicitation_bot)
+
 description: >
   Open-source deliberation pipeline combining a WhatsApp elicitation bot
   (for collecting participant responses) with an LLM-powered analysis tool

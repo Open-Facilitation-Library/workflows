@@ -18,6 +18,9 @@ source:
   reference_url: https://www.thinkscape.ai/blog/thinkscape-enables-group-brainstorming-at-massive-scale
   license: Proprietary
 
+# Academic paper: "Towards Collective Superintelligence" (ScitePress 2024)
+source_type: researched  # published academic paper on Conversational Swarm Intelligence
+
 description: >
   Conversational Swarm Intelligence platform that splits large groups into
   networked small teams (ThinkTanks of 5-7 people), assigns an AI "Conversational

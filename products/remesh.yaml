@@ -18,6 +18,8 @@ source:
   reference_url: https://www.remesh.ai/platform/features-summary
   license: Proprietary
 
+source_type: inferred  # reconstructed from public website and help docs
+
 description: >
   Real-time collective dialogue platform where participants respond to questions
   and vote on each other's answers. AI clusters responses semantically and

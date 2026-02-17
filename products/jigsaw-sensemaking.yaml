@@ -18,6 +18,8 @@ source:
   reference_url: https://github.com/Jigsaw-Code/sensemaking-tools
   license: Apache 2.0
 
+source_type: verified  # open-source codebase (Jigsaw-Code/sensemaking-tools)
+
 description: >
   Open-source tools for analyzing large-scale online conversations using LLMs.
   Takes participant comments with vote data, discovers topics hierarchically,

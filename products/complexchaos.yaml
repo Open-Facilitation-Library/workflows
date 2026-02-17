@@ -18,6 +18,8 @@ source:
   reference_url: https://www.complexchaos.ai
   license: Proprietary
 
+source_type: inferred  # reconstructed from TechCrunch article and public website
+
 description: >
   Asynchronous AI-facilitated alignment platform that conducts 1-on-1 interviews
   with executives and stakeholders, then synthesizes patterns and common ground

@@ -39,25 +39,29 @@ Each workflow is a YAML file describing:
 - **Stages** — the ordered pipeline: input → processing → memory → output
 - **Data flow** — what goes in, what comes out, where data lives
 - **Pattern mapping** — which OFL facilitation patterns it implements
+- **Source type** — how the workflow was documented:
+  - `verified` — from open-source code or detailed published methodology
+  - `researched` — from academic papers or detailed technical write-ups
+  - `inferred` — reconstructed from public marketing/website descriptions
 
 See [`schema/workflow-schema.yaml`](schema/workflow-schema.yaml) for the full definition.
 
 ## Product Workflows
 
-| Platform | Type | Agents | Scale | Key Pattern |
-|----------|------|--------|-------|-------------|
-| [Anthropic Interviewer](products/anthropic-interviewer.yaml) | Async 1-on-1 interviews | Interviewer + Analyst | 1,000+ | Adaptive interviews → thematic synthesis |
-| [Harmonica](products/harmonica.yaml) | Async structured deliberation | Facilitator + Cross-Pollinator + Synthesizer | 3-500 | Cross-pollination between participants |
-| [Remesh](products/remesh.yaml) | Real-time collective dialogue | Clustering Engine + Consensus Predictor + Human Moderator | 20-5,000 | Voting + semantic clustering |
-| [Thinkscape](products/thinkscape.yaml) | Swarm intelligence | Conversational Surrogates + Orchestrator | 14-400 | Small-group → cross-tank propagation |
-| [ComplexChaos](products/complexchaos.yaml) | Async organizational alignment | Dialogue Agent + Pattern Synthesizer | 5-200 | Cross-silo common ground discovery |
-| [Cortico](products/cortico.yaml) | Community audio conversations | Recorder + AI Sensemaker + Human Facilitator | 6-500 | Small-group dialogue → cross-conversation sensemaking |
-| [CrowdSmart](products/crowdsmart.yaml) | Collective intelligence | Alignment + Ideation + Prediction engines | 10-10,000 | Problem alignment → idea generation → prediction |
-| [Habermas Machine](products/habermas-machine.yaml) | Iterative consensus | Statement Generator + Critique Processor | 5-1,000 | Iterative statement refinement via critiques |
-| [Jigsaw Sensemaking](products/jigsaw-sensemaking.yaml) | Comment analysis | Topic Modeler + Categorizer + Summarizer | 50-100,000 | Topic discovery → categorization → narrative summary |
-| [Juno](products/juno.yaml) | Unscripted AI interviews | Interviewer + Thematic Analyst | 5-1,000 | Adaptive unscripted interviews, real-time analysis |
-| [Listen](products/listen.yaml) | AI research pipeline | Recruiter + Interviewer + Analyst | 10-1,000 | Recruit → interview → synthesize |
-| [Talk to the City](products/talk-to-the-city.yaml) | Elicitation + clustering | WhatsApp Bot + Topic Clusterer + Visualizer | 10-10,000 | WhatsApp elicitation → hierarchical topic tree |
+| Platform | Source | Type | Agents | Scale |
+|----------|--------|------|--------|-------|
+| [Anthropic Interviewer](products/anthropic-interviewer.yaml) | researched | Async 1-on-1 interviews | Interviewer + Analyst | 1,000+ |
+| [ComplexChaos](products/complexchaos.yaml) | inferred | Async organizational alignment | Dialogue Agent + Pattern Synthesizer | 5-200 |
+| [Cortico](products/cortico.yaml) | researched | Community audio conversations | Recorder + AI Sensemaker + Human Facilitator | 6-500 |
+| [CrowdSmart](products/crowdsmart.yaml) | researched | Generative Collective Intelligence | Collective Reasoning Agent + Pairwise Engine + Private LM | 10-10,000 |
+| [Habermas Machine](products/habermas-machine.yaml) | verified | Iterative consensus | Statement Generator + Critique Processor | 5-1,000 |
+| [Harmonica](products/harmonica.yaml) | verified | Async structured deliberation | Facilitator + Cross-Pollinator + Synthesizer | 3-500 |
+| [Jigsaw Sensemaking](products/jigsaw-sensemaking.yaml) | verified | Comment analysis | Topic Modeler + Categorizer + Summarizer | 50-100,000 |
+| [Juno](products/juno.yaml) | inferred | Unscripted AI interviews | Interviewer + Thematic Analyst | 5-1,000 |
+| [Listen](products/listen.yaml) | inferred | AI research pipeline | Recruiter + Interviewer + Analyst | 10-1,000 |
+| [Remesh](products/remesh.yaml) | inferred | Real-time collective dialogue | Clustering Engine + Consensus Predictor + Human Moderator | 20-5,000 |
+| [Talk to the City](products/talk-to-the-city.yaml) | verified | Elicitation + clustering | WhatsApp Bot + Topic Clusterer + Visualizer | 10-10,000 |
+| [Thinkscape](products/thinkscape.yaml) | researched | Swarm intelligence | Conversational Surrogates + Orchestrator | 14-400 |
 
 ## Contributing
 

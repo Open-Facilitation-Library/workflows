@@ -25,6 +25,13 @@ workflow:
     reference_url: string       # Link to documentation
     license: string             # Product/content license
 
+  # --- CONFIDENCE ---
+  # How this workflow was documented
+  source_type: enum             # verified | researched | inferred
+    # verified:   from open-source code or detailed published methodology
+    # researched: from academic papers or detailed technical write-ups
+    # inferred:   reconstructed from public marketing/website descriptions
+
   # --- DESCRIPTION ---
   description: string           # What this workflow does (1-3 sentences)
 

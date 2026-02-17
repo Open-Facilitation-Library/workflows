@@ -9,60 +9,73 @@ url: https://www.crowdsmart.ai
 tags:
   - collective-intelligence
   - prediction
-  - idea-generation
+  - pairwise-comparison
   - organizational
   - de-biased
+  - generative-collective-intelligence
 
 source:
   creator: CrowdSmart
-  reference_url: https://www.crowdsmart.ai
+  reference_url: https://arxiv.org/abs/2505.19167
   license: Proprietary
 
+# Paper: "Amplifying Human Creativity and Problem Solving with AI" (arxiv:2505.19167)
+# Co-authored by CrowdSmart's Chief Scientist, with faculty from Michigan, MIT, Stanford HAI
+source_type: researched
+
 description: >
-  Collective intelligence platform combining AI and human input for
-  large-scale organizational collaboration. Three-stage workflow:
-  problem alignment, idea generation, and prediction. Designed to be
-  anonymous, de-biased, and resistant to manipulation.
+  Generative Collective Intelligence (GCI) platform using a Collective Reasoning
+  Agent to orchestrate structured human-AI collaboration. Participants evaluate
+  ideas via pairwise comparison (Thurstone's Law of Comparative Judgment),
+  with identity masking and adaptive peer review to prevent manipulation.
+  Produces prioritized rankings and a private language model of deliberations.
 
 agents:
-  - id: alignment-engine
-    role: Problem Alignment Engine
+  - id: collective-reasoning-agent
+    role: Collective Reasoning Agent
     type: hybrid
     description: >
-      Facilitates collective problem definition, ensuring the group
-      agrees on the challenge before generating solutions.
+      Central orchestrator that facilitates structured collaboration while
+      maintaining anonymity and preventing manipulation. Uses four key
+      mechanisms: identity masking, adaptive peer review selection,
+      iterative refinement, and causal model building.
     responsibilities:
-      - Structure problem definition process
-      - Surface diverse framings of the challenge
-      - Build shared understanding before solution-seeking
+      - Mask participant identities and scores (merit-based engagement)
+      - Adaptively select items for peer review (prevent gaming/groupthink)
+      - Facilitate iterative refinement cycles of judgment and feedback
+      - Build causal models capturing shared understanding
+      - Create comprehensive audit trail of knowledge construction
 
-  - id: ideation-engine
-    role: Idea Generation Engine
-    type: hybrid
+  - id: pairwise-engine
+    role: Pairwise Comparison Engine
+    type: system
     description: >
-      Facilitates collective idea contribution and refinement. AI works
-      alongside human input to sharpen and prioritize ideas.
+      Implements Thurstone's Law of Comparative Judgment for preference
+      aggregation. Participants compare pairs of alternatives; aggregated
+      results infer collective preference ordering via maximum likelihood
+      estimation, Bayesian mechanics, or Hidden Markov Models.
     responsibilities:
-      - Collect ideas from all participants
-      - Surface patterns and connections between ideas
-      - Facilitate collaborative refinement
-      - Prioritize ideas based on group input
+      - Present pairwise comparisons to participants
+      - Aggregate comparative judgments into preference orderings
+      - Apply probabilistic inference (MLE, Bayesian, HMM)
+      - Implement Minimum Regret Principle for decision selection
 
-  - id: prediction-engine
-    role: Prediction Engine
-    type: hybrid
+  - id: deliberation-model
+    role: Private Deliberation Model
+    type: llm
     description: >
-      Enables participants to evaluate which solutions are most likely
-      to succeed. Aggregates predictions using collective intelligence
-      methods.
+      A private language model built from the group's deliberations. Unlike
+      large general models, it contains only information from the deliberation
+      process, making it fully provenanced and trustworthy. Queryable via
+      conversational AI.
     responsibilities:
-      - Structure prediction/evaluation tasks
-      - Aggregate individual predictions
-      - De-bias results (remove groupthink, anchoring effects)
-      - Generate explainable priority rankings
+      - Capture group deliberations in a private language model
+      - Ensure full provenance and trustworthiness
+      - Enable conversational querying of collective intelligence
+      - Maintain audit trail of knowledge construction
 
 participants:
-  input_mode: text
+  input_mode: text  # pairwise comparisons + idea submissions
   interaction: large-group
   synchronicity: async
   scale:
@@ -74,14 +87,13 @@ participants:
 stages:
   - name: Problem Alignment
     description: Group clarifies and agrees on the challenge
-    agent: alignment-engine
+    agent: collective-reasoning-agent
     input:
       - Initial problem statement
       - Participant perspectives on the challenge
     processing: >
-      Facilitate structured problem definition. Surface diverse
-      framings. Build consensus on what the problem actually is
-      before moving to solutions.
+      Surface diverse framings of the problem with masked identities.
+      Build shared understanding before solution-seeking.
     memory:
       - Initial problem statement
       - Participant perspectives
@@ -91,63 +103,86 @@ stages:
     duration: varies
     human_in_loop: false
 
-  - name: Idea Generation
-    description: Collective idea contribution and refinement
-    agent: ideation-engine
+  - name: Idea Generation & Refinement
+    description: Collective idea contribution with iterative refinement
+    agent: collective-reasoning-agent
     input:
       - Aligned problem definition
-      - Participant ideas
+      - Participant ideas (submitted anonymously)
     processing: >
-      Collect ideas anonymously. AI surfaces patterns and connections.
-      Group collaboratively sharpens and prioritizes ideas.
+      Collect ideas with masked identities. AI surfaces patterns and
+      connections. Iterative refinement through cycles of judgment
+      and feedback. Adaptive selection of ideas for peer review
+      prevents gaming and groupthink.
     memory:
       - Aligned problem definition
       - All submitted ideas
+      - Refinement history
     output:
       - Refined idea set
-      - Initial priority rankings
+      - Causal model of idea relationships
     duration: varies
     human_in_loop: false
 
-  - name: Prediction
-    description: Evaluate which solutions are most likely to succeed
-    agent: prediction-engine
+  - name: Pairwise Evaluation
+    description: Comparative judgment to rank solutions
+    agent: pairwise-engine
     input:
       - Refined idea set
-      - Individual participant evaluations
+      - Participant pairwise comparisons (A vs B)
     processing: >
-      Participants evaluate ideas on likelihood of success. AI aggregates
-      predictions, removes biases (anchoring, groupthink), and produces
-      explainable rankings.
+      Participants compare pairs of alternatives. Aggregated results
+      infer collective preference ordering via probabilistic methods
+      (MLE, Bayesian, HMM). Minimum Regret Principle guides final
+      selection (multi-armed bandit extended to social learning).
     memory:
-      - Refined ideas
-      - Individual evaluations
-      - De-biasing models
+      - Pairwise comparison matrix
+      - Statistical models
     output:
-      - Prioritized solution rankings (de-biased)
-      - Prediction confidence scores
+      - Prioritized ranking by probability of shared importance
+      - Multi-criteria decision evaluation with success probabilities
       - Explainability report
     duration: varies
+    human_in_loop: false
+
+  - name: Deliberation Model Construction
+    description: Build queryable private model from group deliberations
+    agent: deliberation-model
+    input:
+      - All deliberation data (ideas, comparisons, refinements)
+      - Causal models
+    processing: >
+      Construct private language model containing only the group's
+      deliberation content. Fully provenanced — no external data leakage.
+    memory:
+      - Complete deliberation corpus
+      - Causal model audit trail
+    output:
+      - Queryable private language model
+      - Audit trail of knowledge construction
+    duration: automated
     human_in_loop: false
 
 data_flow:
   inputs:
     - Problem statement
   outputs:
-    - Aligned problem definition
-    - Prioritized solution rankings
+    - Prioritized solution rankings (probability of shared importance)
+    - Causal models with audit trails
+    - Queryable private language model of deliberations
     - Explainability report
   storage:
-    - Ideas database
-    - Prediction data
-    - De-biasing parameters
+    - Deliberation corpus
+    - Pairwise comparison data
+    - Private language model
+    - Causal models
 
-patterns: []  # collective intelligence / prediction market hybrid
+patterns: []  # generative collective intelligence — novel framework
 
 evaluation:
   metrics:
-    - Problem alignment quality
-    - Idea diversity
     - Prediction accuracy (vs outcomes)
-    - De-biasing effectiveness
+    - Manipulation resistance
+    - De-biasing effectiveness (groupthink prevention)
+    - Idea refinement quality
     - Participant engagement

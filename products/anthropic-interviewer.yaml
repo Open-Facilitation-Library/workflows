@@ -17,6 +17,9 @@ source:
   reference_url: https://www.anthropic.com/research/anthropic-interviewer
   license: Proprietary
 
+# Detailed blog post with methodology: anthropic.com/research/anthropic-interviewer
+source_type: researched  # detailed technical blog post + published anonymized dataset
+
 description: >
   AI-powered interviewing tool that conducts adaptive 1-on-1 conversations with
   participants at scale, then synthesizes themes across all interviews into

@@ -18,6 +18,8 @@ source:
   reference_url: https://listenlabs.ai
   license: Proprietary
 
+source_type: inferred  # reconstructed from public website and product review sites
+
 description: >
   AI research platform with a sequential agent pipeline: recruit participants
   from a 30M+ network, conduct adaptive in-depth interviews, and synthesize
