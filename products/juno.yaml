@@ -1,0 +1,159 @@
+# Juno
+# https://heyjuno.co
+
+id: juno
+name: Juno
+version: "1.0.0"
+type: product
+url: https://heyjuno.co
+tags:
+  - interviews
+  - unscripted
+  - async
+  - multilingual
+  - qualitative-research
+
+source:
+  creator: Juno
+  reference_url: https://heyjuno.co
+  license: Proprietary
+
+description: >
+  AI research platform that conducts unscripted 1-on-1 interviews at scale.
+  Trained by veteran researchers, Juno adapts conversations in real time to
+  find what you didn't know to ask, supports 70+ languages, and produces
+  real-time thematic analysis.
+
+agents:
+  - id: interviewer
+    role: AI Research Interviewer
+    type: llm
+    description: >
+      Conducts unscripted adaptive interviews with participants. Trained by
+      veteran researchers to probe naturally, follow interesting threads,
+      and surface unexpected insights. Supports 70+ languages.
+    responsibilities:
+      - Conduct adaptive unscripted interviews
+      - Ask researcher-defined questions at contextually appropriate moments
+      - Follow up on interesting or unexpected responses
+      - Present embedded media (images, audio, video, PDFs) for richer context
+      - Operate autonomously 24/7 across hundreds of simultaneous interviews
+
+  - id: analyst
+    role: Thematic Analyst
+    type: llm
+    description: >
+      Automatically transcribes, differentiates speakers, and identifies
+      key themes and patterns across all interviews in real time.
+    responsibilities:
+      - Transcribe interview conversations
+      - Identify key themes and topics
+      - Surface patterns across interviews
+      - Provide real-time insight updates as interviews progress
+
+participants:
+  input_mode: text
+  interaction: one-to-one
+  synchronicity: async
+  scale:
+    min: 5
+    max: 1000
+    typical: 50
+  anonymity: true
+
+stages:
+  - name: Research Setup
+    description: Define research objectives and configure interview parameters
+    agent: interviewer
+    input:
+      - Research objectives
+      - Optional: tailored questions to ask at key moments
+      - Optional: media assets (images, audio, video, PDFs) for context
+    processing: Configure interview flow aligned with research goals
+    memory:
+      - Research objectives
+    output:
+      - Configured interview with objectives and embedded materials
+    duration: "10-30 min (researcher)"
+    human_in_loop: true
+
+  - name: Participant Interview
+    description: AI conducts unscripted adaptive conversation
+    agent: interviewer
+    input:
+      - Research objectives and tailored questions
+      - Participant responses
+      - Embedded media assets
+    processing: >
+      Conduct unscripted conversation, naturally steering toward research
+      objectives. Present tailored questions at contextually appropriate
+      moments. Follow unexpected threads. Present media for richer
+      opinion gathering.
+    memory:
+      - Research objectives
+      - Current conversation history
+      - Tailored question bank
+    output:
+      - Interview transcript
+    duration: "10-30 min per participant"
+    human_in_loop: false
+
+  - name: Real-Time Analysis
+    description: Continuously analyze interviews as they come in
+    agent: analyst
+    input:
+      - Completed and in-progress interview transcripts
+    processing: >
+      Transcribe conversations, identify emerging themes, track pattern
+      evolution as more interviews complete. Provide live insight updates.
+    memory:
+      - All interview transcripts
+      - Research objectives
+    output:
+      - Emerging themes (updated in real time)
+      - Key quotes and highlights
+      - Pattern evolution timeline
+    duration: continuous
+    human_in_loop: false
+
+  - name: Insight Synthesis
+    description: Final thematic analysis across all interviews
+    agent: analyst
+    input:
+      - All interview transcripts
+      - Emerging themes
+    processing: >
+      Consolidate themes, identify strongest patterns, extract
+      representative quotes, produce research findings
+    memory:
+      - All interview transcripts
+      - Theme evolution data
+    output:
+      - Research findings report
+      - Thematic clusters
+      - Key quotes and highlights
+    duration: automated
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Research objectives
+    - Optional tailored questions
+    - Optional media assets (images, video, PDFs)
+  outputs:
+    - Research findings with thematic analysis
+    - Interview transcripts
+    - Real-time insight dashboard
+  storage:
+    - Interview transcripts
+    - Theme analysis
+
+patterns: []  # user research interviews, not traditional facilitation
+
+evaluation:
+  metrics:
+    - Interview depth (unscripted follow-up quality)
+    - Theme discovery rate
+    - Participant completion rate
+    - Time-to-insights vs traditional research
+    - Multilingual coverage accuracy

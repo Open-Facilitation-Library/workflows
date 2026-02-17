@@ -21,6 +21,7 @@ products/                 # How real platforms implement deliberation
   remesh.yaml
   thinkscape.yaml
   complexchaos.yaml
+  juno.yaml
   listen.yaml
 ```
 
@@ -45,6 +46,7 @@ See [`schema/workflow-schema.yaml`](schema/workflow-schema.yaml) for the full de
 | [Remesh](products/remesh.yaml) | Real-time collective dialogue | Clustering Engine + Consensus Predictor + Human Moderator | 20-5,000 | Voting + semantic clustering |
 | [Thinkscape](products/thinkscape.yaml) | Swarm intelligence | Conversational Surrogates + Orchestrator | 14-400 | Small-group → cross-tank propagation |
 | [ComplexChaos](products/complexchaos.yaml) | Async organizational alignment | Dialogue Agent + Pattern Synthesizer | 5-200 | Cross-silo common ground discovery |
+| [Juno](products/juno.yaml) | Unscripted AI interviews | Interviewer + Thematic Analyst | 5-1,000 | Adaptive unscripted interviews, real-time analysis |
 | [Listen](products/listen.yaml) | AI research pipeline | Recruiter + Interviewer + Analyst | 10-1,000 | Recruit → interview → synthesize |
 
 ## Contributing
