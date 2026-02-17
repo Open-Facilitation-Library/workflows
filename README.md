@@ -21,8 +21,13 @@ products/                 # How real platforms implement deliberation
   remesh.yaml
   thinkscape.yaml
   complexchaos.yaml
+  cortico.yaml
+  crowdsmart.yaml
+  habermas-machine.yaml
+  jigsaw-sensemaking.yaml
   juno.yaml
   listen.yaml
+  talk-to-the-city.yaml
 ```
 
 ## Workflow Schema
@@ -46,8 +51,13 @@ See [`schema/workflow-schema.yaml`](schema/workflow-schema.yaml) for the full de
 | [Remesh](products/remesh.yaml) | Real-time collective dialogue | Clustering Engine + Consensus Predictor + Human Moderator | 20-5,000 | Voting + semantic clustering |
 | [Thinkscape](products/thinkscape.yaml) | Swarm intelligence | Conversational Surrogates + Orchestrator | 14-400 | Small-group → cross-tank propagation |
 | [ComplexChaos](products/complexchaos.yaml) | Async organizational alignment | Dialogue Agent + Pattern Synthesizer | 5-200 | Cross-silo common ground discovery |
+| [Cortico](products/cortico.yaml) | Community audio conversations | Recorder + AI Sensemaker + Human Facilitator | 6-500 | Small-group dialogue → cross-conversation sensemaking |
+| [CrowdSmart](products/crowdsmart.yaml) | Collective intelligence | Alignment + Ideation + Prediction engines | 10-10,000 | Problem alignment → idea generation → prediction |
+| [Habermas Machine](products/habermas-machine.yaml) | Iterative consensus | Statement Generator + Critique Processor | 5-1,000 | Iterative statement refinement via critiques |
+| [Jigsaw Sensemaking](products/jigsaw-sensemaking.yaml) | Comment analysis | Topic Modeler + Categorizer + Summarizer | 50-100,000 | Topic discovery → categorization → narrative summary |
 | [Juno](products/juno.yaml) | Unscripted AI interviews | Interviewer + Thematic Analyst | 5-1,000 | Adaptive unscripted interviews, real-time analysis |
 | [Listen](products/listen.yaml) | AI research pipeline | Recruiter + Interviewer + Analyst | 10-1,000 | Recruit → interview → synthesize |
+| [Talk to the City](products/talk-to-the-city.yaml) | Elicitation + clustering | WhatsApp Bot + Topic Clusterer + Visualizer | 10-10,000 | WhatsApp elicitation → hierarchical topic tree |
 
 ## Contributing
 

@@ -1,0 +1,172 @@
+# Habermas Machine
+# https://github.com/google-deepmind/habermas_machine
+
+id: habermas-machine
+name: Habermas Machine
+version: "1.0.0"
+type: product
+url: https://github.com/google-deepmind/habermas_machine
+tags:
+  - consensus
+  - common-ground
+  - iterative
+  - fine-tuned
+  - citizens-assembly
+
+source:
+  creator: Google DeepMind
+  reference_url: https://www.science.org/doi/10.1126/science.adq2852
+  license: Apache 2.0 (dataset)
+
+description: >
+  Scaffolded pair of fine-tuned LLMs that iteratively generate group opinion
+  statements by incorporating individual opinions and critiques, maximizing
+  group approval. Outperforms human mediators on clarity, fairness, and
+  informativeness. Tested with 5,000+ UK participants on divisive political topics.
+
+agents:
+  - id: generator
+    role: Statement Generator
+    type: llm
+    description: >
+      Fine-tuned LLM that generates candidate group opinion statements based
+      on individual participants' opinions. Iteratively refines statements
+      by incorporating critiques from group members.
+    responsibilities:
+      - Generate initial group opinion statement from individual opinions
+      - Incorporate critiques to refine statement
+      - Balance majority and minority perspectives
+      - Maximize group approval rating
+
+  - id: critic
+    role: Critique Processor
+    type: llm
+    description: >
+      Processes participant critiques of generated statements and feeds
+      structured feedback to the generator for the next iteration.
+    responsibilities:
+      - Collect participant critiques of group statements
+      - Structure feedback for statement refinement
+      - Track approval ratings across iterations
+      - Ensure minority critiques are incorporated
+
+participants:
+  input_mode: text  # opinion statements + agree/disagree + critiques
+  interaction: large-group
+  synchronicity: async
+  scale:
+    min: 5
+    max: 1000
+    typical: 50
+  anonymity: true
+
+stages:
+  - name: Opinion Elicitation
+    description: Collect individual opinions on a binary question
+    agent: generator
+    input:
+      - Binary question (e.g., "Should voting be compulsory?")
+    processing: Present question to participants, collect agreement level and opinion text
+    memory: []
+    output:
+      - Individual opinion statements
+      - Agreement levels (for/against)
+    duration: "5-10 min"
+    human_in_loop: false
+
+  - name: Statement Generation
+    description: Generate initial group opinion statement
+    agent: generator
+    input:
+      - All individual opinion statements
+      - Agreement levels
+    processing: >
+      Synthesize individual opinions into a single group statement that
+      reflects majority view while incorporating minority perspectives
+    memory:
+      - Individual opinion statements
+      - Agreement distribution
+    output:
+      - Candidate group opinion statement
+    duration: automated
+    human_in_loop: false
+
+  - name: Critique Collection
+    description: Participants evaluate and critique the generated statement
+    agent: critic
+    input:
+      - Candidate group statement
+      - Participant approval ratings
+      - Written critiques
+    processing: >
+      Collect approval/disapproval and textual critiques from each
+      participant. Structure feedback for refinement.
+    memory:
+      - Current group statement
+      - Individual original opinions
+    output:
+      - Approval ratings
+      - Structured critiques
+    duration: "5-10 min"
+    human_in_loop: false
+
+  - name: Iterative Refinement
+    description: Refine group statement based on critiques
+    agent: generator
+    input:
+      - Current group statement
+      - Participant critiques
+      - Approval ratings
+    processing: >
+      Incorporate critiques into revised statement. Specifically attends to
+      minority critiques to ensure they are not overridden by majority.
+      Iterate until approval converges.
+    memory:
+      - All previous statement versions
+      - All critiques
+      - Approval history
+    output:
+      - Refined group opinion statement
+      - Updated approval ratings
+    duration: "multiple rounds"
+    human_in_loop: false
+
+  - name: Final Consensus
+    description: Present final group statement with approval metrics
+    agent: generator
+    input:
+      - Final refined statement
+      - Final approval ratings
+    processing: Package final consensus statement with metrics
+    memory:
+      - Full iteration history
+    output:
+      - Final group opinion statement
+      - Approval rating breakdown
+      - Stance convergence data
+    duration: automated
+    human_in_loop: false
+
+data_flow:
+  inputs:
+    - Binary question on a divisive topic
+  outputs:
+    - Group opinion statement (preferred over human mediator output)
+    - Approval ratings
+    - Stance convergence data
+  storage:
+    - Individual opinions
+    - Statement iteration history
+    - Critique corpus
+
+patterns:
+  - delphi-method  # iterative refinement with feedback
+  - cross-pollination  # exposure to others' views via group statement
+
+evaluation:
+  metrics:
+    - Group approval rating (vs human mediator baseline)
+    - Minority perspective incorporation
+    - Stance convergence (division reduction)
+    - Statement quality (clarity, fairness, informativeness)
+    - Agreement increase (avg +8% vs no mediation)

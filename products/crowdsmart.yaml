@@ -1,0 +1,153 @@
+# CrowdSmart
+# https://www.crowdsmart.ai
+
+id: crowdsmart
+name: CrowdSmart
+version: "1.0.0"
+type: product
+url: https://www.crowdsmart.ai
+tags:
+  - collective-intelligence
+  - prediction
+  - idea-generation
+  - organizational
+  - de-biased
+
+source:
+  creator: CrowdSmart
+  reference_url: https://www.crowdsmart.ai
+  license: Proprietary
+
+description: >
+  Collective intelligence platform combining AI and human input for
+  large-scale organizational collaboration. Three-stage workflow:
+  problem alignment, idea generation, and prediction. Designed to be
+  anonymous, de-biased, and resistant to manipulation.
+
+agents:
+  - id: alignment-engine
+    role: Problem Alignment Engine
+    type: hybrid
+    description: >
+      Facilitates collective problem definition, ensuring the group
+      agrees on the challenge before generating solutions.
+    responsibilities:
+      - Structure problem definition process
+      - Surface diverse framings of the challenge
+      - Build shared understanding before solution-seeking
+
+  - id: ideation-engine
+    role: Idea Generation Engine
+    type: hybrid
+    description: >
+      Facilitates collective idea contribution and refinement. AI works
+      alongside human input to sharpen and prioritize ideas.
+    responsibilities:
+      - Collect ideas from all participants
+      - Surface patterns and connections between ideas
+      - Facilitate collaborative refinement
+      - Prioritize ideas based on group input
+
+  - id: prediction-engine
+    role: Prediction Engine
+    type: hybrid
+    description: >
+      Enables participants to evaluate which solutions are most likely
+      to succeed. Aggregates predictions using collective intelligence
+      methods.
+    responsibilities:
+      - Structure prediction/evaluation tasks
+      - Aggregate individual predictions
+      - De-bias results (remove groupthink, anchoring effects)
+      - Generate explainable priority rankings
+
+participants:
+  input_mode: text
+  interaction: large-group
+  synchronicity: async
+  scale:
+    min: 10
+    max: 10000
+    typical: 100
+  anonymity: true
+
+stages:
+  - name: Problem Alignment
+    description: Group clarifies and agrees on the challenge
+    agent: alignment-engine
+    input:
+      - Initial problem statement
+      - Participant perspectives on the challenge
+    processing: >
+      Facilitate structured problem definition. Surface diverse
+      framings. Build consensus on what the problem actually is
+      before moving to solutions.
+    memory:
+      - Initial problem statement
+      - Participant perspectives
+    output:
+      - Aligned problem definition
+      - Shared understanding of constraints
+    duration: varies
+    human_in_loop: false
+
+  - name: Idea Generation
+    description: Collective idea contribution and refinement
+    agent: ideation-engine
+    input:
+      - Aligned problem definition
+      - Participant ideas
+    processing: >
+      Collect ideas anonymously. AI surfaces patterns and connections.
+      Group collaboratively sharpens and prioritizes ideas.
+    memory:
+      - Aligned problem definition
+      - All submitted ideas
+    output:
+      - Refined idea set
+      - Initial priority rankings
+    duration: varies
+    human_in_loop: false
+
+  - name: Prediction
+    description: Evaluate which solutions are most likely to succeed
+    agent: prediction-engine
+    input:
+      - Refined idea set
+      - Individual participant evaluations
+    processing: >
+      Participants evaluate ideas on likelihood of success. AI aggregates
+      predictions, removes biases (anchoring, groupthink), and produces
+      explainable rankings.
+    memory:
+      - Refined ideas
+      - Individual evaluations
+      - De-biasing models
+    output:
+      - Prioritized solution rankings (de-biased)
+      - Prediction confidence scores
+      - Explainability report
+    duration: varies
+    human_in_loop: false
+
+data_flow:
+  inputs:
+    - Problem statement
+  outputs:
+    - Aligned problem definition
+    - Prioritized solution rankings
+    - Explainability report
+  storage:
+    - Ideas database
+    - Prediction data
+    - De-biasing parameters
+
+patterns: []  # collective intelligence / prediction market hybrid
+
+evaluation:
+  metrics:
+    - Problem alignment quality
+    - Idea diversity
+    - Prediction accuracy (vs outcomes)
+    - De-biasing effectiveness
+    - Participant engagement

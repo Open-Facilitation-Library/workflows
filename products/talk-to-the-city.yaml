@@ -1,0 +1,164 @@
+# Talk to the City (TTTC)
+# https://github.com/AIObjectives/tttc-light-js
+# https://github.com/AIObjectives/elicitation_bot
+
+id: talk-to-the-city
+name: Talk to the City
+version: "1.0.0"
+type: product
+url: https://github.com/AIObjectives/tttc-light-js
+tags:
+  - deliberation
+  - open-source
+  - clustering
+  - whatsapp
+  - elicitation
+  - topic-tree
+
+source:
+  creator: AI Objectives Institute
+  reference_url: https://github.com/AIObjectives/tttc-light-js
+  license: MIT
+
+description: >
+  Open-source deliberation pipeline combining a WhatsApp elicitation bot
+  (for collecting participant responses) with an LLM-powered analysis tool
+  (for clustering responses into hierarchical topic trees). Two repos work
+  together: elicitation_bot collects data, tttc-light-js processes and
+  visualizes it.
+
+agents:
+  - id: elicitor
+    role: Elicitation Bot
+    type: llm
+    model: gpt-4
+    description: >
+      WhatsApp chatbot that conducts conversations with participants to
+      elicit their perspectives. Manages conversation state, question
+      sequencing, and participant flow. Supports batch enrollment via CSV.
+    responsibilities:
+      - Conduct WhatsApp conversations with participants
+      - Manage question sequencing and conversation state
+      - Elicit detailed perspectives and reasoning
+      - Store responses in Firestore
+      - Support batch participant enrollment
+
+  - id: clusterer
+    role: Topic Clustering Engine
+    type: llm
+    description: >
+      Processes qualitative responses using LLM to cluster similar ideas
+      into a nested tree of topics and subtopics. Core analysis pipeline.
+    responsibilities:
+      - Ingest participant responses from CSV
+      - Cluster similar ideas using LLM
+      - Build hierarchical topic tree (topics → subtopics)
+      - Organize scattered perspectives into structured output
+
+  - id: visualizer
+    role: Report Visualizer
+    type: system
+    description: >
+      Renders the clustered topic tree as an interactive web report.
+      Three-service architecture: Next.js frontend, Express backend,
+      Python LLM processing server.
+    responsibilities:
+      - Render interactive topic tree visualization
+      - Enable exploration of clusters and individual responses
+      - Store reports in Google Cloud Storage
+      - Serve static or dynamic web reports
+
+participants:
+  input_mode: text  # WhatsApp messages or CSV upload
+  interaction: one-to-one
+  synchronicity: async
+  scale:
+    min: 10
+    max: 10000
+    typical: 200
+  anonymity: true
+
+stages:
+  - name: Participant Elicitation
+    description: Collect perspectives via WhatsApp chatbot
+    agent: elicitor
+    input:
+      - Research questions / prompts
+      - Participant list (optional CSV batch enrollment)
+    processing: >
+      Bot initiates WhatsApp conversations, asks questions, follows up
+      for detail, manages conversation state. Responses stored in Firestore.
+    memory:
+      - Research prompts
+      - Current conversation history per participant
+    output:
+      - Participant responses (stored in Firestore)
+      - Exportable CSV (id, participant, comment)
+    duration: "async (days)"
+    human_in_loop: false
+
+  - name: Data Export
+    description: Export elicited responses for analysis
+    agent: elicitor
+    input:
+      - Firestore conversation data
+    processing: Export to CSV format compatible with TTTC analysis pipeline
+    memory: []
+    output:
+      - CSV file (row_id, participant_id, comment_text)
+    duration: automated
+    human_in_loop: false
+
+  - name: Topic Clustering
+    description: LLM clusters responses into hierarchical topic tree
+    agent: clusterer
+    input:
+      - CSV of participant responses
+    processing: >
+      LLM analyzes qualitative responses, identifies thematic clusters,
+      and organizes them into a nested tree of main topics and subtopics.
+    memory:
+      - Full response corpus
+    output:
+      - Hierarchical topic tree
+      - Responses assigned to topics
+    duration: automated
+    human_in_loop: false
+
+  - name: Report Generation
+    description: Produce interactive visualization of clustered perspectives
+    agent: visualizer
+    input:
+      - Topic tree with assigned responses
+    processing: >
+      Render topic tree as interactive web report. Store in Google Cloud
+      Storage. Enable exploration of clusters and individual comments.
+    memory:
+      - Topic tree
+      - All responses
+    output:
+      - Interactive web report
+      - Structured topic tree (navigable)
+    duration: automated
+    human_in_loop: false
+
+data_flow:
+  inputs:
+    - Research questions
+    - Participant responses (via WhatsApp or CSV upload)
+  outputs:
+    - Interactive topic tree report
+    - Clustered response analysis
+  storage:
+    - Firestore (conversation data)
+    - Google Cloud Storage (reports)
+    - Redis (job queue)
+
+patterns: []  # qualitative clustering, not a formalized facilitation pattern
+
+evaluation:
+  metrics:
+    - Cluster coherence (topic quality)
+    - Response coverage (% assigned to topics)
+    - Participant completion rate (WhatsApp)
+    - Report usability

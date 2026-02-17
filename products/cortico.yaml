@@ -1,0 +1,163 @@
+# Cortico (Fora)
+# https://cortico.ai
+
+id: cortico
+name: Cortico
+version: "1.0.0"
+type: product
+url: https://cortico.ai
+tags:
+  - community-conversations
+  - audio
+  - sensemaking
+  - small-group
+  - local-voices
+
+source:
+  creator: Cortico (with MIT Center for Constructive Communication)
+  reference_url: https://cortico.ai/platform/
+  license: Proprietary (nonprofit)
+
+description: >
+  Community conversation platform that records small-group dialogues,
+  creates transcripts and audio snippets, and uses AI-assisted sensemaking
+  to surface patterns and themes across many conversations. Combines deep
+  human listening with computational analysis.
+
+agents:
+  - id: recorder
+    role: Conversation Recorder
+    type: system
+    description: >
+      Captures audio from small-group conversations, creates transcripts,
+      and produces shareable conversation records combining audio and text.
+    responsibilities:
+      - Record small-group audio conversations
+      - Transcribe speech to text
+      - Create shareable conversation records
+      - Enable curation of key audio moments
+
+  - id: sensemaker
+    role: AI Sensemaker
+    type: hybrid
+    description: >
+      Combines AI analysis with human-in-the-loop sensemaking. Identifies
+      patterns, themes, and connections across many conversations. Community
+      members participate actively in the analytical process.
+    responsibilities:
+      - Identify patterns across multiple conversations
+      - Surface recurring themes and connections
+      - Amplify underheard voices
+      - Support community-powered analysis at scale
+
+  - id: facilitator
+    role: Human Facilitator
+    type: human
+    description: >
+      Community facilitators who convene and guide small-group conversations.
+      Trained in deep listening practices.
+    responsibilities:
+      - Convene small-group conversations (6-10 people)
+      - Guide dialogue around life experiences
+      - Ensure inclusive participation
+      - Select key moments for curation
+
+participants:
+  input_mode: voice
+  interaction: small-group
+  synchronicity: sync
+  scale:
+    min: 6
+    max: 500  # across many small groups
+    typical: 60
+  anonymity: false
+
+stages:
+  - name: Conversation Convening
+    description: Facilitators organize small-group recorded dialogues
+    agent: facilitator
+    input:
+      - Community topic or prompt
+      - Participant group (6-10 people)
+    processing: Guide authentic small-group conversation around lived experiences
+    memory: []
+    output:
+      - Recorded audio conversation
+    duration: "30-90 min per group"
+    human_in_loop: true
+
+  - name: Transcription & Record Creation
+    description: Process audio into searchable transcripts and audio snippets
+    agent: recorder
+    input:
+      - Recorded audio conversations
+    processing: >
+      Transcribe speech, identify speakers, create navigable conversation
+      record combining audio playback with text
+    memory: []
+    output:
+      - Conversation transcript
+      - Curated audio snippets
+      - Shareable conversation record
+    duration: automated
+    human_in_loop: false
+
+  - name: Community Sensemaking
+    description: Collaborative human-AI analysis across conversations
+    agent: sensemaker
+    input:
+      - Transcripts from multiple conversations
+      - Community member annotations
+    processing: >
+      AI identifies candidate patterns and themes across conversations.
+      Community members review, validate, and refine the analysis.
+      Democratized meaning-making process.
+    memory:
+      - All conversation transcripts
+      - Community annotations and feedback
+    output:
+      - Theme map across conversations
+      - Pattern reports
+      - Curated audio highlight reels
+    duration: "days-weeks (iterative)"
+    human_in_loop: true
+
+  - name: Amplification
+    description: Share insights with broader community and policymakers
+    agent: sensemaker
+    input:
+      - Theme maps and pattern reports
+      - Curated audio highlights
+    processing: Package findings for media, policy, and community audiences
+    memory:
+      - All analysis outputs
+      - Community context
+    output:
+      - Community insights report
+      - Audio stories for media (e.g., NPR partnership)
+      - Policy briefs
+    duration: varies
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Community topic or prompt
+    - Small-group audio conversations
+  outputs:
+    - Conversation records (audio + transcript)
+    - Cross-conversation theme analysis
+    - Audio highlight reels
+    - Policy and media packages
+  storage:
+    - Audio recordings
+    - Transcripts
+    - Community annotations
+
+patterns: []  # community dialogue, not a formalized facilitation pattern
+
+evaluation:
+  metrics:
+    - Conversation participation diversity
+    - Theme saturation across groups
+    - Community validation of AI-identified patterns
+    - Downstream impact (policy changes, media coverage)
