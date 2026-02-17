@@ -28,7 +28,6 @@ products/                 # How real platforms implement AI facilitation
   jigsaw-sensemaking.yaml
   juno.yaml
   listen.yaml
-  symar.yaml
   orchidea.yaml
   outset.yaml
   parlay.yaml
@@ -67,7 +66,6 @@ See [`schema/workflow-schema.yaml`](schema/workflow-schema.yaml) for the full de
 | [Jigsaw Sensemaking](products/jigsaw-sensemaking.yaml) | verified | Comment analysis | Topic Modeler + Categorizer + Summarizer | 50-100,000 |
 | [Juno](products/juno.yaml) | inferred | Unscripted AI interviews | Interviewer + Thematic Analyst | 5-1,000 |
 | [Listen](products/listen.yaml) | inferred | AI research pipeline | Recruiter + Interviewer + Analyst | 10-1,000 |
-| [Symar](products/symar.yaml) | researched | Synthetic focus groups | AI Moderator + AI Personas | 2-20 (synthetic) |
 | [Orchidea](products/orchidea.yaml) | researched | AI workshop facilitation | AI Ideator + Proposal Drafter | 3-500 |
 | [Outset](products/outset.yaml) | researched | Multimodal AI interviews | AI Moderator + Fraud Detector + Analyst | 10-5,000 |
 | [Parlay Ideas](products/parlay.yaml) | researched | Classroom discussion facilitation | Parlay Genie + Participation Tracker | 5-40 |
