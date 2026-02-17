@@ -1,11 +1,11 @@
-# OpinioAI
-# https://www.opinio.ai (also symar.ai)
+# Symar (formerly OpinioAI)
+# https://www.symar.ai
 
-id: opinioai
-name: OpinioAI
+id: symar
+name: Symar
 version: "1.0.0"
 type: product
-url: https://www.opinio.ai
+url: https://www.symar.ai
 tags:
   - synthetic-participants
   - focus-groups
@@ -14,8 +14,8 @@ tags:
   - OCEAN-personality
 
 source:
-  creator: OpinioAI
-  reference_url: https://www.opinio.ai/solutions/synthetic-focus-groups/
+  creator: Symar
+  reference_url: https://www.symar.ai/
   license: Proprietary
 
 source_type: researched  # detailed product documentation and independent reviews
