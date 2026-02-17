@@ -42,4 +42,9 @@ Every product workflow YAML follows `schema/workflow-schema.yaml`. Key fields:
 
 ## Relationship to OFL
 
-Complements the `skills/` repo (abstract facilitation patterns like cross-pollination, Delphi method) by documenting concrete agent architectures. The `patterns` field in each workflow references patterns from `skills/patterns/`.
+Three complementary layers:
+- **Patterns** (`synthesis/` knowledge base) — abstract facilitation methodologies (cross-pollination, Delphi, etc.)
+- **Skills** (`skills/` repo) — executable agent skills following the [Agent Skills specification](https://agentskills.io/specification) for platforms like Harmonica or OpenClaw
+- **Workflows** (this repo) — how real platforms orchestrate agents into complete facilitation systems
+
+The `patterns` field in each workflow references abstract facilitation patterns described in the synthesis knowledge base.

@@ -10,7 +10,7 @@ Workflows describe how AI agents facilitate group processes — how they get inp
 
 The key filter for inclusion: **does an AI agent actively conduct, guide, or mediate a conversation or group process?** This covers AI facilitation across domains: deliberation, market research, education, innovation workshops, dispute resolution, and more.
 
-This complements OFL's [facilitation patterns](https://github.com/Open-Facilitation-Library/skills) (abstract methods like cross-pollination or Delphi) by documenting how real products implement AI facilitation as agent systems.
+This complements OFL's [facilitation patterns](https://github.com/Open-Facilitation-Library/synthesis) (abstract methods like cross-pollination or Delphi, described in the synthesis knowledge base) and [agent skills](https://github.com/Open-Facilitation-Library/skills) (executable skills following the [Agent Skills specification](https://agentskills.io/specification) for use in platforms like Harmonica or OpenClaw).
 
 ## Structure
 
