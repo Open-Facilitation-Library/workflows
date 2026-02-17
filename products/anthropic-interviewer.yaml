@@ -1,0 +1,145 @@
+# Anthropic AI Interviewer
+# https://claude.ai/interviewer
+
+id: anthropic-interviewer
+name: Anthropic AI Interviewer
+version: "1.0.0"
+type: product
+url: https://claude.ai/interviewer
+tags:
+  - interviews
+  - async
+  - large-scale
+  - thematic-analysis
+
+source:
+  creator: Anthropic
+  reference_url: https://www.anthropic.com/research/anthropic-interviewer
+  license: Proprietary
+
+description: >
+  AI-powered interviewing tool that conducts adaptive 1-on-1 conversations with
+  participants at scale, then synthesizes themes across all interviews into
+  executive-ready reports.
+
+agents:
+  - id: interviewer
+    role: Adaptive Interviewer
+    type: llm
+    model: claude
+    description: >
+      Conducts in-depth 1-on-1 interviews, designing rubrics based on research
+      goals, asking follow-up questions, and exploring topics participants raise.
+    responsibilities:
+      - Design interview rubric from research goals
+      - Conduct adaptive conversational interviews
+      - Ask follow-up questions on interesting responses
+      - Explore emergent topics raised by participants
+
+  - id: analyst
+    role: Thematic Analyst
+    type: llm
+    model: claude
+    description: >
+      Analyzes transcripts across all interviews to identify emergent themes,
+      patterns, and key insights.
+    responsibilities:
+      - Process interview transcripts
+      - Identify emergent themes and patterns
+      - Generate executive-ready reports
+      - Produce anonymized datasets
+
+participants:
+  input_mode: text
+  interaction: one-to-one
+  synchronicity: async
+  scale:
+    min: 10
+    max: 5000
+    typical: 1000
+  anonymity: true
+
+stages:
+  - name: Research Design
+    description: Define research goals and interview rubric
+    agent: interviewer
+    input:
+      - Research question / topic brief
+    processing: Generate interview rubric with adaptive question paths
+    memory: []
+    output:
+      - Interview rubric
+      - Question bank with follow-up paths
+    duration: automated
+    human_in_loop: true
+
+  - name: Participant Interview
+    description: Conduct adaptive 1-on-1 interview with each participant
+    agent: interviewer
+    input:
+      - Interview rubric
+      - Participant responses
+    processing: >
+      Ask initial questions, listen to responses, generate contextual follow-ups,
+      explore emergent themes, probe for depth on interesting answers
+    memory:
+      - Interview rubric
+      - Current conversation history
+    output:
+      - Interview transcript
+    duration: "15-45 min per participant"
+    human_in_loop: false
+
+  - name: Cross-Interview Analysis
+    description: Synthesize themes across all interview transcripts
+    agent: analyst
+    input:
+      - All interview transcripts
+    processing: >
+      Identify recurring themes, patterns, and outlier perspectives across
+      the full corpus of interviews
+    memory:
+      - All interview transcripts
+      - Research goals
+    output:
+      - Theme clusters
+      - Key insights
+      - Anonymized dataset
+    duration: automated
+    human_in_loop: false
+
+  - name: Report Generation
+    description: Produce executive-ready research report
+    agent: analyst
+    input:
+      - Theme clusters
+      - Key insights
+    processing: Compile findings into structured report with evidence
+    memory:
+      - All interview transcripts
+      - Theme clusters
+    output:
+      - Executive report
+      - Anonymized dataset (public release)
+    duration: automated
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Research question or topic brief
+  outputs:
+    - Executive report with themes and insights
+    - Anonymized interview dataset
+  storage:
+    - Interview transcripts
+    - Theme clusters
+
+patterns:
+  - delphi-method  # iterative expert consultation
+
+evaluation:
+  metrics:
+    - Interview depth (follow-up quality)
+    - Theme coverage across participants
+    - Participant engagement / completion rate
+    - Report actionability

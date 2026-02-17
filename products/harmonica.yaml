@@ -1,0 +1,170 @@
+# Harmonica
+# https://app.harmonica.chat
+
+id: harmonica
+name: Harmonica
+version: "1.0.0"
+type: product
+url: https://app.harmonica.chat
+tags:
+  - deliberation
+  - cross-pollination
+  - async
+  - structured-facilitation
+  - synthesis
+
+source:
+  creator: Harmonica (harmonicabot)
+  reference_url: https://harmonica.chat
+  license: Open-core (AGPL-3.0 OSS / proprietary Pro)
+
+description: >
+  Structured deliberation platform where an AI facilitator conducts 1-on-1
+  conversations with each participant, cross-pollinates perspectives from other
+  participants in real time, and synthesizes collective insights into reports.
+
+agents:
+  - id: facilitator
+    role: AI Facilitator
+    type: llm
+    description: >
+      Conducts 1-on-1 conversations with each participant following a session
+      template. Asks questions, probes for reasoning, and introduces perspectives
+      from other participants via cross-pollination.
+    responsibilities:
+      - Welcome participants and explain the process
+      - Ask template-defined questions
+      - Probe for deeper reasoning
+      - Introduce cross-pollinated perspectives from other participants
+      - Adapt conversation based on participant responses
+
+  - id: cross-pollinator
+    role: Cross-Pollination Engine
+    type: system
+    description: >
+      RAG pipeline that retrieves relevant statements from other participants'
+      conversations and injects them into the current conversation as diverse
+      perspectives.
+    responsibilities:
+      - Embed participant responses into vector space
+      - Cluster opinions by semantic similarity
+      - Retrieve contrasting/complementary perspectives
+      - Surface minority viewpoints
+
+  - id: synthesizer
+    role: Session Synthesizer
+    type: llm
+    description: >
+      Analyzes all participant conversations to produce structured session
+      reports with themes, recommendations, and areas of agreement/disagreement.
+    responsibilities:
+      - Aggregate themes across all conversations
+      - Identify areas of consensus and disagreement
+      - Generate structured session report
+      - Assign action items and owners
+
+participants:
+  input_mode: text
+  interaction: one-to-one
+  synchronicity: async
+  scale:
+    min: 3
+    max: 500
+    typical: 20
+  anonymity: true
+
+stages:
+  - name: Session Setup
+    description: Creator configures session template with questions and context
+    agent: facilitator
+    input:
+      - Session template (questions, context, goals)
+      - Optional: background documents
+    processing: Load template and prepare conversation flow
+    memory:
+      - Session template
+      - Background documents
+    output:
+      - Configured session ready for participants
+    duration: "5-15 min (creator)"
+    human_in_loop: true
+
+  - name: Participant Conversation
+    description: AI facilitator conducts 1-on-1 structured conversation
+    agent: facilitator
+    input:
+      - Session template questions
+      - Participant responses
+      - Cross-pollinated perspectives (from other participants)
+    processing: >
+      Follow template question flow, ask follow-ups, probe reasoning,
+      introduce perspectives from other participants when relevant
+    memory:
+      - Session template
+      - Current conversation history
+      - Cross-pollinated statements from other participants
+    output:
+      - Conversation transcript
+      - Participant's key positions and reasoning
+    duration: "10-30 min per participant"
+    human_in_loop: false
+
+  - name: Real-Time Cross-Pollination
+    description: Surface diverse perspectives from other participants
+    agent: cross-pollinator
+    input:
+      - Current participant's responses
+      - All other participants' responses
+    processing: >
+      Embed responses, cluster by opinion, retrieve statements from
+      different clusters to expose participant to diverse views
+    memory:
+      - All participant responses (vector embeddings)
+      - Opinion clusters
+    output:
+      - Cross-pollinated statements for facilitator to introduce
+    duration: automated
+    human_in_loop: false
+
+  - name: Session Synthesis
+    description: Generate collective insights report
+    agent: synthesizer
+    input:
+      - All conversation transcripts
+      - Session template goals
+    processing: >
+      Identify themes, map consensus and disagreement, extract key quotes,
+      generate recommendations
+    memory:
+      - All conversation transcripts
+      - Session template
+    output:
+      - Session report (themes, recommendations, key quotes)
+      - Areas of agreement and disagreement
+      - Action items
+    duration: automated
+    human_in_loop: false
+
+data_flow:
+  inputs:
+    - Session template (questions, context, goals)
+    - Optional background documents
+  outputs:
+    - Session report with themes and recommendations
+    - Individual conversation transcripts
+    - Cross-pollination analytics
+  storage:
+    - Neon Postgres (session data, transcripts)
+    - Vector embeddings (for cross-pollination)
+
+patterns:
+  - cross-pollination
+  - delphi-method
+
+evaluation:
+  metrics:
+    - Cross-pollination diversity (opinion exposure breadth)
+    - Participant engagement (messages per conversation)
+    - Synthesis quality (theme coverage, actionability)
+    - Opinion change rate (pre/post positions)
+    - Session completion rate

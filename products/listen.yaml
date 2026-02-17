@@ -1,0 +1,181 @@
+# Listen (Listen Labs)
+# https://listenlabs.ai
+
+id: listen
+name: Listen
+version: "1.0.0"
+type: product
+url: https://listenlabs.ai
+tags:
+  - interviews
+  - market-research
+  - async
+  - recruitment
+  - pipeline
+
+source:
+  creator: Listen Labs
+  reference_url: https://listenlabs.ai
+  license: Proprietary
+
+description: >
+  AI research platform with a sequential agent pipeline: recruit participants
+  from a 30M+ network, conduct adaptive in-depth interviews, and synthesize
+  findings into executive-ready reports with highlight reels.
+
+agents:
+  - id: recruiter
+    role: Participant Recruiter
+    type: llm
+    description: >
+      Finds and qualifies research participants from a global network of 30M+
+      people. Screens for relevance to research goals.
+    responsibilities:
+      - Source participants matching target criteria
+      - Screen and qualify candidates
+      - Schedule and manage participation
+
+  - id: interviewer
+    role: AI Research Interviewer
+    type: llm
+    description: >
+      Conducts in-depth adaptive interviews. Asks follow-up questions,
+      probes for context, and builds rapport to get honest responses.
+    responsibilities:
+      - Conduct adaptive text/voice interviews
+      - Ask contextual follow-up questions
+      - Probe for deeper reasoning and context
+      - Build rapport for honest responses
+
+  - id: analyst
+    role: Research Analyst
+    type: llm
+    description: >
+      Synthesizes themes across all interviews and produces structured
+      deliverables including reports, highlight reels, and slide decks.
+    responsibilities:
+      - Identify themes across interviews
+      - Extract key quotes and highlights
+      - Generate executive reports
+      - Create slide decks and highlight reels
+
+participants:
+  input_mode: mixed  # text and voice
+  interaction: one-to-one
+  synchronicity: async
+  scale:
+    min: 10
+    max: 1000
+    typical: 100
+  anonymity: true
+
+stages:
+  - name: Research Design
+    description: Define research goals, target audience, and screening criteria
+    agent: recruiter
+    input:
+      - Research brief / goals
+      - Target audience criteria
+    processing: Define screening questions and recruitment strategy
+    memory:
+      - Research brief
+    output:
+      - Screening criteria
+      - Recruitment plan
+    duration: "1-2 days"
+    human_in_loop: true
+
+  - name: Participant Recruitment
+    description: Find and qualify participants from global network
+    agent: recruiter
+    input:
+      - Screening criteria
+      - Target audience parameters
+    processing: >
+      Search 30M+ participant network, screen candidates against criteria,
+      qualify and onboard selected participants
+    memory:
+      - Screening criteria
+      - Participant network data
+    output:
+      - Qualified participant pool
+    duration: "1-3 days"
+    human_in_loop: false
+
+  - name: In-Depth Interview
+    description: AI conducts adaptive interview with each participant
+    agent: interviewer
+    input:
+      - Interview guide
+      - Participant responses
+    processing: >
+      Conduct adaptive interview following research guide. Ask follow-ups
+      based on responses, probe for context and reasoning, adapt to
+      participant's communication style.
+    memory:
+      - Interview guide
+      - Current conversation history
+      - Research goals
+    output:
+      - Interview transcript
+      - Key quotes and highlights
+    duration: "15-30 min per participant"
+    human_in_loop: false
+
+  - name: Theme Synthesis
+    description: Analyze patterns across all interviews
+    agent: analyst
+    input:
+      - All interview transcripts
+      - Research goals
+    processing: >
+      Identify recurring themes, extract representative quotes,
+      quantify sentiment and preference patterns
+    memory:
+      - All interview transcripts
+      - Research brief
+    output:
+      - Theme map
+      - Key findings
+      - Highlight reel
+    duration: automated
+    human_in_loop: false
+
+  - name: Deliverable Generation
+    description: Produce executive-ready outputs
+    agent: analyst
+    input:
+      - Theme map
+      - Key findings
+    processing: Compile into structured deliverables
+    memory:
+      - All analysis outputs
+    output:
+      - Executive report
+      - Slide deck
+      - Highlight reel (key moments)
+    duration: automated
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Research brief and goals
+    - Target audience criteria
+  outputs:
+    - Executive report
+    - Slide deck
+    - Highlight reel
+  storage:
+    - Interview transcripts
+    - Participant database
+    - Theme analysis
+
+patterns: []  # market research, not a traditional facilitation pattern
+
+evaluation:
+  metrics:
+    - Recruitment speed and quality
+    - Interview completion rate
+    - Theme saturation (% of themes discovered)
+    - Report actionability
+    - Time-to-insights vs traditional research

@@ -1,0 +1,176 @@
+# Remesh
+# https://www.remesh.ai
+
+id: remesh
+name: Remesh
+version: "1.0.0"
+type: product
+url: https://www.remesh.ai
+tags:
+  - real-time
+  - voting
+  - clustering
+  - large-scale
+  - audience-engagement
+
+source:
+  creator: Remesh
+  reference_url: https://www.remesh.ai/platform/features-summary
+  license: Proprietary
+
+description: >
+  Real-time collective dialogue platform where participants respond to questions
+  and vote on each other's answers. AI clusters responses semantically and
+  predicts consensus, enabling researchers to understand large groups in real time.
+
+agents:
+  - id: clustering-engine
+    role: Semantic Clustering Engine
+    type: system
+    description: >
+      Groups open-ended responses by meaning using NLP. Identifies thematic
+      clusters where responses within clusters are similar and across clusters
+      are dissimilar.
+    responsibilities:
+      - Embed responses semantically
+      - Cluster by meaning (not keywords)
+      - Generate cluster labels and summaries
+      - Track cluster evolution over session
+
+  - id: consensus-predictor
+    role: Consensus Prediction Engine
+    type: llm
+    description: >
+      Predicts how participants would vote on responses they haven't seen,
+      using LLMs to extrapolate voting behavior across the full response set.
+    responsibilities:
+      - Predict voting patterns across unseen responses
+      - Calculate "Percent Agree" consensus scores
+      - Segment participants by voting behavior
+      - Identify majority and minority positions
+
+  - id: moderator
+    role: Human Moderator
+    type: human
+    description: >
+      Researcher who poses questions, monitors real-time results, and adapts
+      the discussion flow based on emerging themes.
+    responsibilities:
+      - Ask questions to the audience
+      - Monitor real-time clustering results
+      - Adapt questions based on emerging themes
+      - Probe deeper on surprising findings
+
+participants:
+  input_mode: mixed  # text responses + voting
+  interaction: large-group
+  synchronicity: sync  # real-time sessions (also async "Flex" mode)
+  scale:
+    min: 20
+    max: 5000
+    typical: 200
+  anonymity: true
+
+stages:
+  - name: Question Prompt
+    description: Moderator poses an open-ended question to the audience
+    agent: moderator
+    input:
+      - Research agenda
+      - Prior round results (if any)
+    processing: Select or craft question based on research goals and emerging themes
+    memory:
+      - Research agenda
+      - Results from prior rounds
+    output:
+      - Open-ended question displayed to all participants
+    duration: "1-2 min"
+    human_in_loop: true
+
+  - name: Response Collection
+    description: Participants write open-ended text responses
+    agent: clustering-engine
+    input:
+      - Participant text responses (streaming in real time)
+    processing: Receive and queue responses for clustering
+    memory: []
+    output:
+      - Raw response corpus for this question
+    duration: "2-5 min"
+    human_in_loop: false
+
+  - name: Peer Voting
+    description: Participants vote agree/disagree on others' responses
+    agent: consensus-predictor
+    input:
+      - Participant responses
+      - Agree/disagree votes
+    processing: >
+      Each participant sees a subset of others' responses and votes.
+      LLM predicts how they would vote on unseen responses to extrapolate
+      full consensus picture.
+    memory:
+      - All responses for this question
+      - Vote matrix (observed votes)
+    output:
+      - Predicted consensus scores per response
+      - Participant segments by voting pattern
+    duration: "2-5 min"
+    human_in_loop: false
+
+  - name: Thematic Clustering
+    description: AI groups responses into meaningful themes
+    agent: clustering-engine
+    input:
+      - All responses with consensus scores
+    processing: >
+      Semantic embedding and clustering. Responses grouped by meaning,
+      not keywords. Cluster summaries generated.
+    memory:
+      - Response embeddings
+      - Consensus scores
+    output:
+      - Thematic clusters with labels
+      - Cluster-level consensus metrics
+      - Real-time dashboard view
+    duration: automated
+    human_in_loop: false
+
+  - name: Iterative Probing
+    description: Moderator asks follow-up questions based on results
+    agent: moderator
+    input:
+      - Cluster results and consensus scores
+    processing: Identify surprising or high-value themes to probe deeper
+    memory:
+      - All prior rounds' results
+      - Research agenda
+    output:
+      - Follow-up questions
+    duration: "1-2 min"
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Research agenda / question set
+  outputs:
+    - Thematic clusters with consensus scores
+    - Participant segments
+    - Real-time dashboard
+    - Session report with sentiment analysis
+  storage:
+    - Response database
+    - Vote matrix
+    - Cluster embeddings
+
+patterns:
+  - cross-pollination  # exposure to others' views via voting
+  - delphi-method      # iterative rounds of questioning
+
+evaluation:
+  metrics:
+    - Response rate per question
+    - Voting coverage (% of responses voted on)
+    - Cluster coherence (within-cluster similarity)
+    - Consensus prediction accuracy
+    - Moderator engagement (follow-up quality)

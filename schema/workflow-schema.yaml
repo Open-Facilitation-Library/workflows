@@ -1,0 +1,78 @@
+# Open Facilitation Library - Workflow Schema
+# Version: 1.0
+# Describes agent workflows for deliberation/facilitation platforms
+#
+# Two workflow types:
+#   - product: documents how a specific platform orchestrates agents
+#   - abstract: reusable, product-agnostic workflow definitions
+
+# ============================================
+# WORKFLOW SCHEMA DEFINITION
+# ============================================
+
+workflow:
+  # --- METADATA ---
+  id: string                    # Unique identifier (e.g., "harmonica")
+  name: string                  # Human-readable name
+  version: string               # Schema version (semver)
+  type: enum                    # product | abstract
+  url: string                   # Product URL (for product workflows)
+  tags: list[string]            # Searchable tags
+
+  # --- SOURCE & ATTRIBUTION ---
+  source:
+    creator: string             # Creator/organization
+    reference_url: string       # Link to documentation
+    license: string             # Product/content license
+
+  # --- DESCRIPTION ---
+  description: string           # What this workflow does (1-3 sentences)
+
+  # --- AGENTS ---
+  # The distinct agent roles in this workflow
+  agents:
+    - id: string                # Unique agent identifier within workflow
+      role: string              # Human-readable role name
+      type: enum                # llm | human | hybrid | system
+      model: string             # Optional: specific model (e.g., "claude-3.5-sonnet")
+      description: string       # What this agent does
+      responsibilities:
+        - string
+
+  # --- PARTICIPANTS ---
+  participants:
+    input_mode: enum            # text | voice | vote | mixed
+    interaction: enum           # one-to-one | small-group | large-group | plenary
+    synchronicity: enum         # sync | async | hybrid
+    scale:
+      min: integer
+      max: integer
+      typical: integer
+    anonymity: boolean
+
+  # --- STAGES ---
+  # Ordered sequence of workflow stages — the core of the definition
+  stages:
+    - name: string              # Stage name
+      description: string       # What happens in this stage
+      agent: string             # Which agent handles this (references agents[].id)
+      input: list[string]       # What goes into this stage
+      processing: string        # What the agent does with the input
+      memory: list[string]      # Context drawn from (prior stages, external sources)
+      output: list[string]      # What this stage produces
+      duration: string          # Optional: expected duration (e.g., "10-15 min", "automated")
+      human_in_loop: boolean    # Whether human oversight is needed
+
+  # --- DATA FLOW ---
+  data_flow:
+    inputs: list[string]        # What the workflow needs to start
+    outputs: list[string]       # Final deliverables
+    storage: list[string]       # Where data persists (database, vector store, etc.)
+
+  # --- OFL PATTERN MAPPING ---
+  # Which abstract OFL facilitation patterns this workflow implements
+  patterns: list[string]        # References to OFL skills/patterns (e.g., "cross-pollination")
+
+  # --- EVALUATION ---
+  evaluation:
+    metrics: list[string]       # How to assess workflow quality

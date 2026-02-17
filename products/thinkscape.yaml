@@ -1,0 +1,172 @@
+# Thinkscape
+# https://www.thinkscape.ai
+
+id: thinkscape
+name: Thinkscape
+version: "1.0.0"
+type: product
+url: https://www.thinkscape.ai
+tags:
+  - swarm-intelligence
+  - multi-agent
+  - real-time
+  - small-groups
+  - insight-propagation
+
+source:
+  creator: Thinkscape / Unanimous AI
+  reference_url: https://www.thinkscape.ai/blog/thinkscape-enables-group-brainstorming-at-massive-scale
+  license: Proprietary
+
+description: >
+  Conversational Swarm Intelligence platform that splits large groups into
+  networked small teams (ThinkTanks of 5-7 people), assigns an AI "Conversational
+  Surrogate" to each tank, and propagates insights across the network in real time.
+
+agents:
+  - id: surrogate
+    role: Conversational Surrogate
+    type: llm
+    description: >
+      One AI agent per ThinkTank. Observes the local conversation, identifies
+      key insights, shares them with peer surrogates, and introduces
+      cross-group insights conversationally into its own tank.
+    responsibilities:
+      - Monitor local ThinkTank conversation
+      - Identify key insights and positions
+      - Share insights with peer surrogates (other ThinkTanks)
+      - Introduce cross-group insights into local conversation
+      - Express ideas conversationally (not as summaries)
+
+  - id: orchestrator
+    role: Network Orchestrator
+    type: system
+    description: >
+      Manages the fully-connected network of surrogates. Coordinates insight
+      propagation timing and monitors convergence across the swarm.
+    responsibilities:
+      - Divide participants into ThinkTanks
+      - Manage surrogate-to-surrogate communication
+      - Monitor network-wide convergence
+      - Track sentiment and preference shifts
+
+participants:
+  input_mode: text
+  interaction: small-group  # 5-7 per ThinkTank, but many tanks in parallel
+  synchronicity: sync
+  scale:
+    min: 14
+    max: 400
+    typical: 100
+  anonymity: false
+
+stages:
+  - name: Group Formation
+    description: Divide participants into ThinkTanks of 5-7 people
+    agent: orchestrator
+    input:
+      - Participant list
+      - Optional: demographic/expertise data
+    processing: Assign participants to balanced ThinkTanks
+    memory: []
+    output:
+      - ThinkTank assignments
+      - One surrogate agent per tank
+    duration: automated
+    human_in_loop: false
+
+  - name: Local Deliberation
+    description: Small groups discuss the topic in their ThinkTank
+    agent: surrogate
+    input:
+      - Discussion prompt
+      - Participant messages within the ThinkTank
+    processing: >
+      Participants chat naturally in small group. Surrogate observes,
+      identifies emerging insights and positions.
+    memory:
+      - Local conversation history
+      - Discussion prompt
+    output:
+      - Local conversation transcript
+      - Identified local insights
+    duration: "5-10 min"
+    human_in_loop: false
+
+  - name: Cross-Tank Propagation
+    description: Surrogates share insights across the network
+    agent: surrogate
+    input:
+      - Local insights from own ThinkTank
+      - Insights received from peer surrogates
+    processing: >
+      Surrogate packages key local insights and sends to all peer surrogates.
+      Receives insights from other tanks. Introduces cross-group ideas
+      conversationally into local discussion (as a participant, not a moderator).
+    memory:
+      - Local conversation context
+      - Insights from all other ThinkTanks
+    output:
+      - Cross-pollinated ideas introduced to local group
+      - Network-wide insight map
+    duration: continuous (overlaps with local deliberation)
+    human_in_loop: false
+
+  - name: Convergence Monitoring
+    description: Track opinion alignment across the full network
+    agent: orchestrator
+    input:
+      - All ThinkTank conversations
+      - Surrogate-to-surrogate communications
+    processing: >
+      Monitor sentiment shifts, preference convergence, and idea adoption
+      across the network. Detect when the swarm reaches sufficient alignment.
+    memory:
+      - Full network state
+      - Historical convergence trajectory
+    output:
+      - Convergence metrics
+      - Network-wide preference map
+      - Decision readiness indicator
+    duration: continuous
+    human_in_loop: false
+
+  - name: Collective Output
+    description: Aggregate final positions across all ThinkTanks
+    agent: orchestrator
+    input:
+      - Final positions from each ThinkTank
+      - Convergence metrics
+    processing: Compile network-wide consensus and remaining disagreements
+    memory:
+      - All ThinkTank transcripts
+      - Convergence data
+    output:
+      - Collective decision or recommendation
+      - Areas of consensus and dissent
+      - Analytics dashboard
+    duration: automated
+    human_in_loop: false
+
+data_flow:
+  inputs:
+    - Discussion prompt / decision question
+  outputs:
+    - Collective decision or recommendation
+    - Convergence analytics
+    - Per-ThinkTank transcripts
+  storage:
+    - ThinkTank conversation logs
+    - Surrogate-to-surrogate message logs
+    - Convergence metrics
+
+patterns:
+  - cross-pollination  # via surrogate insight propagation
+
+evaluation:
+  metrics:
+    - Group IQ amplification (vs individual performance)
+    - Convergence speed
+    - Insight propagation rate (how fast ideas spread)
+    - Participant satisfaction
+    - Decision quality (vs expert benchmark)

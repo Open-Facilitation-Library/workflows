@@ -1,0 +1,155 @@
+# ComplexChaos
+# https://www.complexchaos.ai
+
+id: complexchaos
+name: ComplexChaos
+version: "1.0.0"
+type: product
+url: https://www.complexchaos.ai
+tags:
+  - alignment
+  - async
+  - executive
+  - common-ground
+  - organizational
+
+source:
+  creator: ComplexChaos
+  reference_url: https://www.complexchaos.ai
+  license: Proprietary
+
+description: >
+  Asynchronous AI-facilitated alignment platform that conducts 1-on-1 interviews
+  with executives and stakeholders, then synthesizes patterns and common ground
+  across organizational silos. Uses Habermas Machine-inspired approach.
+
+agents:
+  - id: interviewer
+    role: Dialogue Agent
+    type: llm
+    description: >
+      Conducts asynchronous 1-on-1 dialogues with stakeholders. Generates
+      contextual questions, summarizes relevant documents, and probes for
+      priorities and concerns.
+    responsibilities:
+      - Conduct asynchronous text-based interviews
+      - Generate contextual follow-up questions
+      - Summarize background documents for participants
+      - Surface conversation goals and track progress
+
+  - id: synthesizer
+    role: Pattern Synthesis Agent
+    type: llm
+    description: >
+      Aggregates insights across all individual dialogues to find recurring
+      patterns, common ground, and areas of misalignment across teams/silos.
+    responsibilities:
+      - Identify recurring patterns across conversations
+      - Find common ground between siloed stakeholders
+      - Map priorities and areas of misalignment
+      - Generate consensus statements
+
+participants:
+  input_mode: text
+  interaction: one-to-one
+  synchronicity: async
+  scale:
+    min: 5
+    max: 200
+    typical: 30
+  anonymity: true
+
+stages:
+  - name: Context Setup
+    description: Load organizational context and define alignment goals
+    agent: interviewer
+    input:
+      - Organizational context documents
+      - Alignment goals / research questions
+    processing: Ingest and summarize background materials, generate conversation goals
+    memory:
+      - Organizational documents
+    output:
+      - Interview framework
+      - Document summaries
+    duration: automated
+    human_in_loop: true
+
+  - name: Stakeholder Dialogue
+    description: Asynchronous 1-on-1 interview with each stakeholder
+    agent: interviewer
+    input:
+      - Interview framework
+      - Stakeholder responses
+      - Relevant document summaries
+    processing: >
+      Ask questions aligned with conversation goals, probe for priorities
+      and concerns, adapt based on stakeholder's role and perspective
+    memory:
+      - Interview framework
+      - Current conversation history
+      - Document summaries
+    output:
+      - Dialogue transcript
+      - Stakeholder's key positions and priorities
+    duration: "async (days/weeks)"
+    human_in_loop: false
+
+  - name: Cross-Silo Pattern Analysis
+    description: Find patterns and common ground across all dialogues
+    agent: synthesizer
+    input:
+      - All dialogue transcripts
+      - Stakeholder roles / organizational context
+    processing: >
+      Identify recurring themes across functions, teams, and geographies.
+      Surface common ground that stakeholders don't realize they share.
+      Map misalignment areas.
+    memory:
+      - All dialogue transcripts
+      - Organizational structure
+    output:
+      - Common ground map
+      - Priority alignment/misalignment areas
+      - Recurring pattern report
+    duration: automated
+    human_in_loop: false
+
+  - name: Alignment Report
+    description: Produce actionable alignment recommendations
+    agent: synthesizer
+    input:
+      - Common ground map
+      - Priority areas
+    processing: Generate consensus statements and recommended actions
+    memory:
+      - All analysis outputs
+      - Organizational context
+    output:
+      - Alignment report
+      - Consensus statements
+      - Recommended next steps
+    duration: automated
+    human_in_loop: true
+
+data_flow:
+  inputs:
+    - Organizational context documents
+    - Alignment goals
+  outputs:
+    - Alignment report with common ground
+    - Priority maps
+    - Consensus statements
+  storage:
+    - Dialogue transcripts
+    - Pattern analysis
+
+patterns:
+  - delphi-method  # expert consultation across silos
+
+evaluation:
+  metrics:
+    - Common ground discovery rate
+    - Stakeholder engagement / completion rate
+    - Alignment improvement (pre/post measurement)
+    - Actionability of recommendations
